@@ -2,34 +2,53 @@ import { useEffect } from "react";
 import React from "react";
 import {
     InputForm,
-    ItemVertical,
+    ItemHorizontal,
     TextArea,
     Dropdown
 } from "@/Components";
 
 const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, formError, dataJadwal }) => {
-    
+
     const handleInputChange = (name, value) => {
         setData(name, value)
     };
 
     const dropdownTipePendaftaran = [
-        {value: 'online', label: 'Online'},
-        {value: 'offline', label: 'Offline'}
+        { value: 'online', label: 'Online' },
+        { value: 'offline', label: 'Offline' }
     ];
-    
-    const dropdownJadwal = dataJadwal.map((object) => {
+
+    const dropdownJadwal = dataJadwal?.map((object) => {
         return {
             value: object.id,
             label: object.tgl_samling
         }
     });
-    
+
     const dropdownStatus = [
-        {value: 1, label: 'Belum Diproses'},
-        {value: 2, label: 'Dalam Diproses'},
-        {value: 3, label: 'Selesai'},
+        { value: 1, label: 'Belum Diproses' },
+        { value: 2, label: 'Dalam Diproses' },
+        { value: 3, label: 'Selesai' },
     ]
+
+    if (action === "DELETE") {
+        return (
+            <>
+                <div className="grid grid-cols-2 gap-3">
+                    <div>
+                        <ItemHorizontal label="Kode Antrian" value={initialData.kode_pendaftaran} />
+                        <ItemHorizontal label="Nama" value={initialData.nama} />
+                        <ItemHorizontal label="Tgl. Pendaftaran" value={initialData.tgl_pendaftaran} />
+                        <ItemHorizontal label="Tgl. Samling" value={initialData.tgl_samling} />
+                    </div>
+                    <div>
+                        <ItemHorizontal label="Kode Antrian" value={initialData.status_antrian === 1 ? 'Belum Diproses' : (initialData.status_antrian === 2 ? 'Sedang Diproses' : 'Selesai')} />
+                        <ItemHorizontal label="Tipe Pendaftaran" value={initialData.tipe_pendaftaran} />
+                    </div>
+                </div>
+            </>
+        )
+    }
 
     return (
         <>
@@ -70,7 +89,7 @@ const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, for
                         onChange={(value) => handleInputChange('masa_berlaku', value)}
                         errors={formError.masa_berlaku}
                     />
-                     <InputForm
+                    <InputForm
                         label="No. Tlp"
                         value={dataForm?.no_tlp}
                         type="text"
@@ -103,14 +122,14 @@ const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, for
                         value={dataForm?.jadwal_id}
                         errors={formError.jadwal_id}
                     />
-                     <InputForm
+                    <InputForm
                         label="Tgl. Pendaftaran"
                         value={dataForm?.tgl_pendaftaran}
                         type="date"
                         onChange={(value) => handleInputChange('tgl_pendaftaran', value)}
                         errors={formError.tgl_pendaftaran}
                     />
-                     <Dropdown
+                    <Dropdown
                         label="Tipe Pendaftaran"
                         data={dropdownTipePendaftaran}
                         onChange={(value) => handleInputChange('tipe_pendaftaran', value)}
@@ -119,7 +138,7 @@ const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, for
                         disabled={true}
                     />
 
-                     <Dropdown
+                    <Dropdown
                         label="Status Pendaftaran"
                         data={dropdownStatus}
                         onChange={(value) => handleInputChange('status_antrian', value)}

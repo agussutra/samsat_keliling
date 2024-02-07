@@ -20,6 +20,8 @@ use Inertia\Inertia;
 Route::get('/pendaftaran_offline', [PendaftaranOfflineController::class, 'index']);
 Route::get('/pendaftaran_offline/form', [PendaftaranOfflineController::class, 'form']);
 Route::post('/pendaftaran_offline', [PendaftaranOfflineController::class, 'store']);
+Route::put('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'update']);
+Route::delete('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'delete']);
 
 Route::resource('/user', RegisteredUserController::class)->names('user');
 Route::resource('/informasi', InformasiController::class)->names('informasi');

@@ -1,4 +1,4 @@
-import { Link, Head, usePage, useForm, router} from '@inertiajs/react';
+import { Link, Head, usePage, useForm, router } from '@inertiajs/react';
 import { useState, useEffect } from "react";
 import Layout from '@/Layouts/masterLayout/Layout';
 import {
@@ -38,8 +38,11 @@ const pendaftaranOfflineForm = (props) => {
 
         post('/pendaftaran_offline', {
             onSuccess: () => {
-                    setAlert({ ...alert, variant: "success", show: true, message: "Data Berhasil Ditambah" }),
+                setAlert({ ...alert, variant: "success", show: true, message: "Data Berhasil Ditambah" }),
                     reset();
+                setTimeout(() => {
+                    router.get('/pendaftaran_offline');
+                }, 3000);
             },
             onError: (error) => {
                 setAlert({ ...alert, variant: "error", show: true, message: "Data Gagal Ditambah" });
@@ -54,7 +57,7 @@ const pendaftaranOfflineForm = (props) => {
     return (
         <>
             <Layout>
-            <Alert
+                <Alert
                     message={alert.message}
                     variant={alert.variant}
                     show={alert.show}
@@ -90,9 +93,11 @@ const pendaftaranOfflineForm = (props) => {
                                 </CardLayout>
                             </div>
                         </div>
-                        <div className='lg:flex lg:justify-end sm:flex-row w-full md:flex-row lg:w-full'>
-                            <div className='mb-3 flex items-center'>
+                        <div className='lg:flex lg:justify-end sm:flex-row w-full md:flex-row lg:w-full items-center'>
+                            <div className='mb-3 flex '>
                                 <ButtonSubmitCreate processing={processing} type="submit" />
+                            </div>
+                            <div>
                                 <button onClick={() => onClickHandle()} type='button' className="inline-flex w-full justify-center rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-gray-400 sm:ml-3 sm:w-auto">Kembali</button>
                             </div>
                         </div>

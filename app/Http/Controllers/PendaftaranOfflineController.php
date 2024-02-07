@@ -27,7 +27,13 @@ class PendaftaranOfflineController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('search');
-        $dataPendaftaran = Pendaftaran_Offline::where('kode_pendaftaran', 'like', "%$query%")->paginate(10);
+
+        $dataPendaftaran = DB::table('pendaftaran_samsat')
+                        ->select('pendaftaran_samsat.*', 'jadwal_pajak.tgl_samling','wajib_pajak.nama')
+                        ->leftJoin('jadwal_pajak', 'jadwal_pajak.id', '=', 'pendaftaran_samsat.jadwal_id')
+                        ->leftJoin('wajib_pajak', 'wajib_pajak.id', '=', 'pendaftaran_samsat.wajib_pajak_id')
+                        ->paginate(10);
+
         return Inertia::render('pendaftaranOffline/pendaftaranOfflineList', [
             'dataPendaftaran' => $dataPendaftaran,
             'query' => $query,
@@ -118,5 +124,19 @@ class PendaftaranOfflineController extends Controller
             DB::rollBack();
             return redirect()->back();
         }
+    }
+
+    public function update (Request $request, $id) 
+    {
+        Pendaftaran_Offline::find($id)->update([
+            'status_antrian' => $request->statusAntrian
+        ]);
+        return redirect()->back();
+    }
+
+    public function delete ($id)
+    {
+        Pendaftaran_Offline::find($id)->delete();
+        return redirect()->back();
     }
 }
