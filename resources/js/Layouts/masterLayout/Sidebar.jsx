@@ -1,8 +1,10 @@
 import PagesConfig from "@/config/PagesConfig";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 const sidebar = () => {
     const menu = PagesConfig;
+    const page = usePage();
+
     return (
         <>
              {menu?.map((data, i) => (
@@ -24,7 +26,7 @@ const sidebar = () => {
                 </li>
                 ) : (
                     <li className="mb-2" key={i}>
-                    <div className="flex">
+                    <div className={`flex ${data.link === page.url ? 'bg-blue-500 text-white' : ''}`}>
                         <span className="text-lg mr-4 dark:text-white">{data.icon}</span>
                         <Link href={data.link} className="text-md font-semibold dark:text-white">{data.name}</Link>
                     </div>
