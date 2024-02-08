@@ -19,13 +19,7 @@ const pendaftaranOfflineForm = (props) => {
     });
 
     const { data, setData, post, put, delete: destroy, processing, errors, reset, clearErrors } = useForm({
-        nama: '',
-        alamat: '',
-        no_tlp: '',
-        plat_kendaraan: '',
-        tipe_kendaraan: '',
-        no_stnk: '',
-        masa_berlaku: '',
+        wajib_pajak_id: '',
         jadwal_id: '',
         kode_pendaftaran: props?.kodePendaftaran,
         status_antrian: 1,
@@ -42,7 +36,7 @@ const pendaftaranOfflineForm = (props) => {
                     reset();
                 setTimeout(() => {
                     router.get('/pendaftaran_offline');
-                }, 3000);
+                }, 2000);
             },
             onError: (error) => {
                 setAlert({ ...alert, variant: "error", show: true, message: "Data Gagal Ditambah" });
@@ -68,33 +62,21 @@ const pendaftaranOfflineForm = (props) => {
                 <CardLayout>
                     <form onSubmit={submit}>
                         <div className='mx-auto w-full lg:grid lg:grid-cols-2 lg:gap-3 lg:justify-between'>
-                            <div className='mb-3 '>
-                                <h1 className='text-lg font-bold mb-2 dark:text-white'>Wajib Pajak <span className='text-red-500'>*</span></h1>
-                                <CardLayout>
-                                    <PendaftaranOfflineContent
-                                        action="FORM1"
-                                        dataForm={data}
-                                        setData={setData}
-                                        formError={errors}
-                                        dataJadwal={props.dataJadwal}
-                                    />
-                                </CardLayout>
-                            </div>
                             <div className='mb-3'>
                                 <h1 className='text-lg font-bold mb-2 dark:text-white'>Pendaftaran Wajib Pajak <span className='text-red-500'>*</span></h1>
                                 <CardLayout>
                                     <PendaftaranOfflineContent
-                                        action="FORM2"
                                         dataForm={data}
                                         setData={setData}
                                         formError={errors}
                                         dataJadwal={props.dataJadwal}
+                                        dataWajibPajak={props.wajibPajak}
                                     />
                                 </CardLayout>
                             </div>
                         </div>
-                        <div className='lg:flex lg:justify-end sm:flex-row w-full md:flex-row lg:w-full items-center'>
-                            <div className='mb-3 flex '>
+                        <div className='lg:flex lg:justify-end sm:flex-row w-full md:flex-row lg:w-full items-center lg:items-center gap-3'>
+                            <div className='flex'>
                                 <ButtonSubmitCreate processing={processing} type="submit" />
                             </div>
                             <div>

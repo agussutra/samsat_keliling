@@ -43,6 +43,7 @@ trait MasterCRUD
             $this->model::create($validatedData);
             return redirect()->back();
         } catch (\Exception $ex) {
+            $ex->getMessage();
             return redirect()->back();
         }
     }

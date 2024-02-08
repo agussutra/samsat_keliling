@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\JadwalSamlingController;
 use App\Http\Controllers\PendaftaranOfflineController;
+use App\Http\Controllers\WajibPajakController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,6 +28,8 @@ Route::delete('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class,
 Route::resource('/user', RegisteredUserController::class)->names('user');
 Route::resource('/informasi', InformasiController::class)->names('informasi');
 Route::resource('/jadwal_samling', JadwalSamlingController::class)->names('jadwal_samling');
+Route::resource('/wajib_pajak', WajibPajakController::class)->names('wajib_pajak');
+Route::resource('/', DashboardController::class)->names('dashboard');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
