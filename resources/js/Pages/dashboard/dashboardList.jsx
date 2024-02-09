@@ -1,12 +1,11 @@
 import { React, useState } from "react";
 import { usePage, Head, useForm } from "@inertiajs/react";
 import Layout from '@/Layouts/masterLayout/Layout';
-import { HeaderMenu, CardLayout } from "@/Components";
+import { HeaderMenu, CardLayout, Alert } from "@/Components";
 import { PiPencilSimpleLineFill } from "react-icons/pi";
 
 const dashboardList = (props) => {
     const date = new Date();
-
     return (
         <>
             <Layout>
