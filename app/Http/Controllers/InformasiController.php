@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\TryCatch;
 class InformasiController extends Controller
 {
 
-    use MasterCRUD;
+    use MasterCrud;
 
     public function __construct()
     {

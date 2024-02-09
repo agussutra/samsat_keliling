@@ -1,1 +1,1 @@
-export * from "./tbodyCustom";
+export * from "./TbodyCustom";
