@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\MasterCRUD;
+use App\Http\Traits\MasterCrud;
 use App\Models\Informasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\TryCatch;
 class InformasiController extends Controller
 {
 
-    use MasterCRUD;
+    use MasterCrud;
 
     public function __construct()
     {
