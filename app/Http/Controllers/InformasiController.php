@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\MasterCRUD;
+use App\Http\Traits\MasterCrud;
 use App\Models\Informasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
