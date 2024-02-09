@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\MasterCRUD;
+use App\Http\Traits\MasterCrud;
 use App\Models\Jadwal_Samling;
 use App\Models\Pendaftaran_Offline;
 use App\Models\Wajib_pajak;
@@ -14,7 +14,7 @@ use PhpParser\Node\Stmt\TryCatch;
 class PendaftaranOfflineController extends Controller
 {
 
-    use MasterCRUD;
+    use MasterCrud;
 
     public function __construct()
     {
@@ -29,11 +29,11 @@ class PendaftaranOfflineController extends Controller
         $query = $request->input('search');
 
         $dataPendaftaran = DB::table('pendaftaran_samsat')
-                        ->select('pendaftaran_samsat.*', 'jadwal_pajak.tgl_samling','wajib_pajak.nama')
-                        ->leftJoin('jadwal_pajak', 'jadwal_pajak.id', '=', 'pendaftaran_samsat.jadwal_id')
-                        ->leftJoin('wajib_pajak', 'wajib_pajak.id', '=', 'pendaftaran_samsat.wajib_pajak_id')
-                        ->where('kode_pendaftaran','like', "%$query%")
-                        ->paginate(10);
+            ->select('pendaftaran_samsat.*', 'jadwal_pajak.tgl_samling', 'wajib_pajak.nama')
+            ->leftJoin('jadwal_pajak', 'jadwal_pajak.id', '=', 'pendaftaran_samsat.jadwal_id')
+            ->leftJoin('wajib_pajak', 'wajib_pajak.id', '=', 'pendaftaran_samsat.wajib_pajak_id')
+            ->where('kode_pendaftaran', 'like', "%$query%")
+            ->paginate(10);
 
         return Inertia::render('pendaftaranOffline/pendaftaranOfflineList', [
             'dataPendaftaran' => $dataPendaftaran,
@@ -98,7 +98,7 @@ class PendaftaranOfflineController extends Controller
         }
     }
 
-    public function update (Request $request, $id) 
+    public function update(Request $request, $id)
     {
         Pendaftaran_Offline::find($id)->update([
             'status_antrian' => $request->statusAntrian
@@ -106,7 +106,7 @@ class PendaftaranOfflineController extends Controller
         return redirect()->back();
     }
 
-    public function delete ($id)
+    public function delete($id)
     {
         Pendaftaran_Offline::find($id)->delete();
         return redirect()->back();
