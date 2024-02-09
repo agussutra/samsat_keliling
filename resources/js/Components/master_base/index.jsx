@@ -7,3 +7,4 @@ export * from "./button"
 export * from './card'
 export * from './alert'
 export * from './textEditor'
+export * from './accordion'

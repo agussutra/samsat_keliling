@@ -19,26 +19,24 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/pendaftaran_offline', [PendaftaranOfflineController::class, 'index']);
-Route::get('/pendaftaran_offline/form', [PendaftaranOfflineController::class, 'form']);
-Route::post('/pendaftaran_offline', [PendaftaranOfflineController::class, 'store']);
-Route::put('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'update']);
-Route::delete('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'delete']);
 
-Route::resource('/user', RegisteredUserController::class)->names('user');
-Route::resource('/informasi', InformasiController::class)->names('informasi');
-Route::resource('/jadwal_samling', JadwalSamlingController::class)->names('jadwal_samling');
-Route::resource('/wajib_pajak', WajibPajakController::class)->names('wajib_pajak');
-Route::resource('/', DashboardController::class)->names('dashboard');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+Route::middleware('auth')->group(function () {
+    Route::get('/pendaftaran_offline', [PendaftaranOfflineController::class, 'index']);
+    Route::get('/pendaftaran_offline/form', [PendaftaranOfflineController::class, 'form']);
+    Route::post('/pendaftaran_offline', [PendaftaranOfflineController::class, 'store']);
+    Route::put('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'update']);
+    Route::delete('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'delete']);
 
-require __DIR__.'/auth.php';
+    Route::resource('/user', RegisteredUserController::class)->names('user');
+    Route::resource('/informasi', InformasiController::class)->names('informasi');
+    Route::resource('/jadwal_samling', JadwalSamlingController::class)->names('jadwal_samling');
+    Route::resource('/wajib_pajak', WajibPajakController::class)->names('wajib_pajak');
+    Route::resource('/', DashboardController::class)->names('dashboard');
+});
+
+require __DIR__ . '/auth.php';

@@ -1,10 +1,11 @@
-import { Children, useEffect, useState} from "react";
+import { Children, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { HiMiniUserCircle } from "react-icons/hi2";
 
 const Layout = ({ children }) => {
 
+    const page = usePage();
     const [isNavbarTransparant, setNavbarTransparant] = useState(true);
     const [isChecked, setChecked] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "light");
@@ -24,7 +25,7 @@ const Layout = ({ children }) => {
         const localTheme = localStorage.getItem("theme");
         if (localTheme === 'dark') {
             document.querySelector("html").classList.add('dark');
-        } else{
+        } else {
             document.querySelector("html").classList.remove('dark');
         }
     }, [theme])
@@ -47,17 +48,20 @@ const Layout = ({ children }) => {
     return (
         <div className="dark:bg-c-dark bg-slate-50">
             <navbar className={`navbar bg-base-100 mb-3 mt-5 transition-all duration-100 shadow-sm rounded-lg fixed mx-3 z-10 
-                ${(isNavbarTransparant && theme === 'light')? 'bg-white' : 'bg-opacity-50 shadow-sm'} 
-                ${(isNavbarTransparant && theme === 'dark')? 'bg-slate-500' : 'bg-opacity-20 shadow-sm'} 
+                ${(isNavbarTransparant && theme === 'light') ? 'bg-white' : 'bg-opacity-50 shadow-sm'} 
+                ${(isNavbarTransparant && theme === 'dark') ? 'bg-slate-500' : 'bg-opacity-20 shadow-sm'} 
                 `}>
                 <div className="flex-1">
                     <label htmlFor="my-drawer" className="btn btn-ghost text-xl drawer-button dark:text-white">MENU</label>
                 </div>
                 <div className="flex-none gap-2">
-                    <div className="dropdown dropdown-end mr-4 ">
-                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                            <HiMiniUserCircle className="text-4xl dark:text-white" />
-                        </label>
+                    <div className="dropdown dropdown-end mr-4">
+                        <div className="flex gap-1 items-center">
+                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                <HiMiniUserCircle className="text-4xl dark:text-white" />
+                            </label>
+                            <span className="text-slate-500">{page.props.auth.user.username}</span>
+                        </div>
                         <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 dark:bg-slate-700 dark:text-white">
                             <li>
                                 <a className="justify-between dark:hover:bg-white">
@@ -65,9 +69,9 @@ const Layout = ({ children }) => {
                                 </a>
                             </li>
                             <li>
-                            <Link method="POST" href={route('logout')} as="button" className="dark:hover:bg-white" >
-                                Logout
-                            </Link>
+                                <Link method="POST" href={route('logout')} as="button" className="dark:hover:bg-white" >
+                                    Logout
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -91,7 +95,7 @@ const Layout = ({ children }) => {
                     <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                     <ul className="menu p-4 w-80 min-h-full text-base-content bg-white dark:bg-slate-700">
                         <div className="mb-8 mt-8 flex items-center">
-                            <img src="/image/samsat_logo.png" alt="Your Image"  className="h-[80px] w-[100px]" />
+                            <img src="/image/samsat_logo.png" alt="Your Image" className="h-[80px] w-[100px]" />
                             <span className="bg-gradient-to-r from-blue-700 via-indigo-950 to-indigo-400 text-transparent bg-clip-text text-xl font-bold font-raleway dark:via-white dark:to-indigo-400">Samsat Keliling</span>
                         </div>
                         <hr className="bg-slate-300 mb-3" />

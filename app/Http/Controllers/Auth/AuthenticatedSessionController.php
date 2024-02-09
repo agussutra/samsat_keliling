@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Informasi;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,9 +20,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+        $dataInformasi = Informasi::all();
         return Inertia::render('login/login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'dataInformasi' => $dataInformasi
         ]);
     }
 
@@ -34,7 +37,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(RouteServiceProvider::HOME)->with('success', 'Login berhasil!');
     }
 
     /**
