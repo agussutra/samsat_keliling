@@ -1,5 +1,5 @@
-import Layout from '@/Layouts/masterLayout/Layout';
-import { Link, Head, usePage, useForm } from '@inertiajs/react';
+import Layout from "@/Layouts/masterLayout/Layout";
+import { Link, Head, usePage, useForm } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import {
     CardLayout,
@@ -14,65 +14,96 @@ import {
     ButtonCreate,
     ButtonDelete,
     ButtonUpdate,
-    Alert
-} from '@/Components';
+    Alert,
+} from "@/Components";
 import { PiPencilSimpleLineFill } from "react-icons/pi";
-import JadwalSamlingContent from './__content__/JadwalSamlingContent';
-
+import JadwalSamlingContent from "./__content__/JadwalSamlingContent";
 
 const jadwalSamling = (props) => {
-
     const pageName = usePage();
 
-    const { data, setData, post, put, delete: destroy, processing, errors, reset, clearErrors } = useForm({
-        tgl_samling: '',
-        jam_samling: '',
-        info_samling: '',
-        lokasi_samling: '',
+    const {
+        data,
+        setData,
+        post,
+        put,
+        delete: destroy,
+        processing,
+        errors,
+        reset,
+        clearErrors,
+    } = useForm({
+        tgl_samling: "",
+        jam_samling: "",
+        info_samling: "",
+        lokasi_samling: "",
     });
 
     const [modal, setModal] = useState({
         action: "",
         data: {},
-        show: false
+        show: false,
     });
 
     const [alert, setAlert] = useState({
         variant: "",
         show: false,
-        message: ""
+        message: "",
     });
 
-    const onClickHandlerDetail = (data) => setModal({ show: true, action: "READ", data: data });
-    const onClickHandlerUpdate = (data) => setModal({ show: true, action: "UPDATE", data: data });
-    const onClickHandlerDelete = (data) => setModal({ show: true, action: "DELETE", data: data });
-    const onClickHandlerCreate = () => setModal({ show: true, action: "CREATE", data: "" });
-
+    const onClickHandlerDetail = (data) =>
+        setModal({ show: true, action: "READ", data: data });
+    const onClickHandlerUpdate = (data) =>
+        setModal({ show: true, action: "UPDATE", data: data });
+    const onClickHandlerDelete = (data) =>
+        setModal({ show: true, action: "DELETE", data: data });
+    const onClickHandlerCreate = () =>
+        setModal({ show: true, action: "CREATE", data: "" });
 
     function submit(e) {
         e.preventDefault();
 
-        post('/jadwal_samling', {
+        post("/jadwal_samling", {
             onSuccess: () => {
                 setModal({ ...modal, show: false }),
-                    setAlert({ ...alert, variant: "success", show: true, message: "Data Berhasil Ditambah" }),
-                    reset()
+                    setAlert({
+                        ...alert,
+                        variant: "success",
+                        show: true,
+                        message: "Data Berhasil Ditambah",
+                    }),
+                    reset();
             },
             onError: (error) => {
-                setAlert({ ...alert, variant: "error", show: true, message: "Data Gagal Ditambah" });
-            }
+                setAlert({
+                    ...alert,
+                    variant: "error",
+                    show: true,
+                    message: "Data Gagal Ditambah",
+                });
+            },
         });
 
         if (modal.action === "UPDATE") {
             put(`/jadwal_samling/${modal?.data?.id}`, {
                 onSuccess: () => {
                     setModal({ ...modal, show: false }),
-                        setAlert({ ...alert, variant: "success", show: true, message: "Data Berhasil Diubah" }),
-                        reset()
+                        setAlert({
+                            ...alert,
+                            variant: "success",
+                            show: true,
+                            message: "Data Berhasil Diubah",
+                        }),
+                        reset();
                 },
                 onError: (error) => {
-                    setAlert({ ...alert, variant: "error", show: true, message: "Data Gagal Diubah" });
-                }
+                    setAlert({
+                        ...alert,
+                        variant: "error",
+                        show: true,
+                        message: "Data Gagal Diubah",
+                    });
+                },
             });
         }
 
@@ -80,12 +111,22 @@ const jadwalSamling = (props) => {
             destroy(`/jadwal_samling/${modal?.data?.id}`, {
                 onSuccess: () => {
                     setModal({ ...modal, show: false }),
-                        setAlert({ ...alert, variant: "success", show: true, message: "Data Berhasil Dihapus" }),
-                        reset()
+                        setAlert({
+                            ...alert,
+                            variant: "success",
+                            show: true,
+                            message: "Data Berhasil Dihapus",
+                        }),
+                        reset();
                 },
                 onError: (error) => {
-                    setAlert({ ...alert, variant: "error", show: true, message: "Data Gagal Dihapus" });
-                }
+                    setAlert({
+                        ...alert,
+                        variant: "error",
+                        show: true,
+                        message: "Data Gagal Dihapus",
+                    });
+                },
             });
         }
     }
@@ -100,25 +141,26 @@ const jadwalSamling = (props) => {
                     onHide={() => setAlert({ ...alert, show: false })}
                 />
                 <Head title="Jadwal Samling" />
-                <div className='bg-yellow-300 p-4 rounded-md mb-6 font-bold text-lg dark:text-white'>
-                    <div className='flex items-center'>
+                <div className="bg-yellow-300 p-4 rounded-md mb-6 font-bold text-lg dark:text-white">
+                    <div className="flex items-center">
                         <div>
                             <PiPencilSimpleLineFill />
                         </div>
                         <div>
-                            <span className='ml-2'>Jadwal Samsat Keliling</span>
+                            <span className="ml-2">Jadwal Samsat Keliling</span>
                         </div>
                     </div>
-
                 </div>
                 <CardLayout>
-                    <div className='flex justify-center'>
+                    <div className="flex justify-center">
                         <div>
-                            <span className='text-xl font-bold dark:text-white'>Jadwal Pelaksanaan Samsat Keliling Counter X</span>
+                            <span className="text-xl font-bold dark:text-white">
+                                Jadwal Pelaksanaan Samsat Keliling Counter X
+                            </span>
                         </div>
                     </div>
                     <hr />
-                    <div className='mb-2 flex justify-end'>
+                    <div className="mb-2 flex justify-end">
                         <ButtonCreate onClick={() => onClickHandlerCreate()} />
                     </div>
                     <Table
@@ -129,40 +171,40 @@ const jadwalSamling = (props) => {
                         TableHeader={[
                             {
                                 text: "Tanggal Samling",
-                                styleHeader: 'text-left'
+                                styleHeader: "text-left",
                             },
                             {
                                 text: "Jam Samling",
-                                styleHeader: 'text-left'
+                                styleHeader: "text-left",
                             },
                             {
                                 text: "Info Samling",
-                                styleHeader: 'text-left'
+                                styleHeader: "text-left",
                             },
                             {
                                 text: "Lokasi Samling",
-                                styleHeader: 'text-left'
+                                styleHeader: "text-left",
                             },
                             {
-                                text: "aksi"
-                            }
+                                text: "aksi",
+                            },
                         ]}
                         TableContent={[
                             {
                                 field: "tgl_samling",
-                                styleBody: 'text-left'
+                                styleBody: "text-left",
                             },
                             {
                                 field: "jam_samling",
-                                styleBody: 'text-left'
+                                styleBody: "text-left",
                             },
                             {
                                 field: "info_samling",
-                                styleBody: 'text-left'
+                                styleBody: "text-left",
                             },
                             {
                                 field: "lokasi_samling",
-                                styleBody: 'text-left'
+                                styleBody: "text-left",
                             },
                             {
                                 action: (data) => {
@@ -176,21 +218,23 @@ const jadwalSamling = (props) => {
                                             <ButtonUpdate
                                                 onClick={() => {
                                                     onClickHandlerUpdate(data);
-                                                }} />
+                                                }}
+                                            />
                                             <ButtonDelete
                                                 onClick={() => {
                                                     onClickHandlerDelete(data);
-                                                }} />
+                                                }}
+                                            />
                                         </ButtonGroup>
-                                    )
-                                }
-                            }
+                                    );
+                                },
+                            },
                         ]}
                     />
                 </CardLayout>
 
                 {/* Modal Tambah Data */}
-                {(modal.show && modal.action === "CREATE") &&
+                {modal.show && modal.action === "CREATE" && (
                     <form onSubmit={submit}>
                         <ModalCreate
                             title="JADWAL SAMLING"
@@ -206,10 +250,10 @@ const jadwalSamling = (props) => {
                             />
                         </ModalCreate>
                     </form>
-                }
+                )}
 
                 {/* Modal Ubah Data */}
-                {(modal.show && modal.action === "UPDATE") &&
+                {modal.show && modal.action === "UPDATE" && (
                     <form onSubmit={submit} method="POST">
                         <ModalUpdate
                             title="JADWAL SAMLING"
@@ -226,26 +270,27 @@ const jadwalSamling = (props) => {
                             />
                         </ModalUpdate>
                     </form>
-                }
+                )}
 
                 {/* Read Data */}
-                {(modal.show && modal.action === "READ") &&
+                {modal.show && modal.action === "READ" && (
                     <ModalDetail
                         title="JADWAL SAMLING"
                         onClose={() => setModal({ ...modal, show: false })}
                         processing={processing}
-                        type="submit">
+                        type="submit"
+                    >
                         <JadwalSamlingContent
                             action={modal.action}
                             initialData={modal.data}
                         />
                     </ModalDetail>
-                }
-                
-                {(modal.show && modal.action === "DELETE") &&
+                )}
+
+                {modal.show && modal.action === "DELETE" && (
                     <form onSubmit={submit}>
                         <ModalDelete
-                             title="JADWAL SAMLING"
+                            title="JADWAL SAMLING"
                             onClose={() => setModal({ ...modal, show: false })}
                             processing={processing}
                             type="submit"
@@ -256,12 +301,9 @@ const jadwalSamling = (props) => {
                             />
                         </ModalDelete>
                     </form>
-                }
-
-
-
+                )}
             </Layout>
         </>
-    )
+    );
 };
 export default jadwalSamling;

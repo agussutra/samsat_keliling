@@ -20,17 +20,17 @@ class RegisteredUserController extends Controller
      * Display the registration view.
      */
     
-     public function index(Request $request)
-     {
-         $query = $request->input('search');
+    //  public function index(Request $request)
+    //  {
+    //      $query = $request->input('search');
          
-         $dataUser = User::where('name','like', "%$query%")->paginate(10);
+    //      $dataUser = User::where('name','like', "%$query%")->paginate(10);
  
-         return Inertia::render('user/listUser', [
-             'dataUser' => $dataUser,
-             'query' => $query,
-         ]);
-     }
+    //      return Inertia::render('user/listUser', [
+    //          'dataUser' => $dataUser,
+    //          'query' => $query,
+    //      ]);
+    //  }
 
 
     public function create(): Response
@@ -53,7 +53,7 @@ class RegisteredUserController extends Controller
             'username' => 'required|string|max:255',
             'role' => 'required',
             'alamat' => 'required',
-            'no_tlp' => 'required',
+            'no_tlp' => 'required|numeric',
         ]);
 
         User::create([
