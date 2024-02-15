@@ -24,7 +24,10 @@ class InformasiController extends Controller
      */
     public function index()
     {
-        return Inertia::render('informasi/listInformasi');
+        $dataInformasi = Informasi::all();
+        return Inertia::render('informasi/listInformasi', [
+            'dataInformasi' => $dataInformasi
+        ]);
     }
 
     public function store(Request $request)

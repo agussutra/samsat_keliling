@@ -4,14 +4,23 @@ import JadwalSamling from "./menuConfig/JadwalSamling";
 import PendaftaranOffline from "./menuConfig/PendaftaranOffline";
 import ProfilUser from "./menuConfig/ProfileUser";
 import WajibPajak from "./menuConfig/WajibPajak";
+import DaftarSamling from "./menuConfig/DaftarSamling";
+import { usePage } from "@inertiajs/react";
 
-const PagesConfig = [
-    Dashboard,
-    InformasiSamling,
-    JadwalSamling,
-    ProfilUser,
-    WajibPajak,
-    PendaftaranOffline
-];
+const pagesConfig = () => {
+    const page = usePage();
+    const role = page.props.auth.user.role;
 
-export default PagesConfig;
+    const PagesConfig = [
+        Dashboard,
+        InformasiSamling,
+        JadwalSamling,
+        role === 1 ? ProfilUser : "",
+        WajibPajak,
+        role === 1 ? PendaftaranOffline : "",
+        DaftarSamling,
+    ];
+    return { page: PagesConfig };
+};
+
+export default pagesConfig;

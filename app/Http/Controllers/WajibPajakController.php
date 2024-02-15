@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\MasterCRUD;
+use App\Http\Traits\MasterCrud;
 use App\Models\Informasi;
 use App\Models\Wajib_pajak;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\TryCatch;
 class WajibPajakController extends Controller
 {
 
-    use MasterCRUD;
+    use MasterCrud;
 
     public function __construct()
     {
