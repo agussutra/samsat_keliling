@@ -40,7 +40,7 @@ class JadwalSamlingController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('search');
-        $dataJadwal = Jadwal_Samling::where('lokasi_samling', 'like', "%$query%")->paginate(10);
+        $dataJadwal = Jadwal_Samling::where('lokasi_samling', 'like', "%$query%")->orderBy('tgl_samling')->orderBy('jam_samling')->paginate(10);
         return Inertia::render('jadwalSamling/jadwalSamling', [
             'dataJadwal' => $dataJadwal,
             'query' => $query,

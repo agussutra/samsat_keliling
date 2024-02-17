@@ -21,6 +21,7 @@ import JadwalSamlingContent from "./__content__/JadwalSamlingContent";
 
 const jadwalSamling = (props) => {
     const pageName = usePage();
+    const role = pageName?.props?.auth?.user?.role;
 
     const {
         data,
@@ -151,87 +152,117 @@ const jadwalSamling = (props) => {
                         </div>
                     </div>
                 </div>
-                <CardLayout>
-                    <div className="flex justify-center">
-                        <div>
-                            <span className="text-xl font-bold dark:text-white">
-                                Jadwal Pelaksanaan Samsat Keliling Counter X
-                            </span>
+                {role === 1 ? (
+                    <CardLayout>
+                        <div className="flex justify-center">
+                            <div>
+                                <span className="text-xl font-bold dark:text-white">
+                                    Jadwal Pelaksanaan Samsat Keliling Counter X
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <hr />
-                    <div className="mb-2 flex justify-end">
-                        <ButtonCreate onClick={() => onClickHandlerCreate()} />
-                    </div>
-                    <Table
-                        data={props?.dataJadwal?.data}
-                        pagination={props?.dataJadwal}
-                        query={props?.query}
-                        pageName={pageName}
-                        TableHeader={[
-                            {
-                                text: "Tanggal Samling",
-                                styleHeader: "text-left",
-                            },
-                            {
-                                text: "Jam Samling",
-                                styleHeader: "text-left",
-                            },
-                            {
-                                text: "Info Samling",
-                                styleHeader: "text-left",
-                            },
-                            {
-                                text: "Lokasi Samling",
-                                styleHeader: "text-left",
-                            },
-                            {
-                                text: "aksi",
-                            },
-                        ]}
-                        TableContent={[
-                            {
-                                field: "tgl_samling",
-                                styleBody: "text-left",
-                            },
-                            {
-                                field: "jam_samling",
-                                styleBody: "text-left",
-                            },
-                            {
-                                field: "info_samling",
-                                styleBody: "text-left",
-                            },
-                            {
-                                field: "lokasi_samling",
-                                styleBody: "text-left",
-                            },
-                            {
-                                action: (data) => {
-                                    return (
-                                        <ButtonGroup>
-                                            <ButtonInfo
-                                                onClick={() => {
-                                                    onClickHandlerDetail(data);
-                                                }}
-                                            />
-                                            <ButtonUpdate
-                                                onClick={() => {
-                                                    onClickHandlerUpdate(data);
-                                                }}
-                                            />
-                                            <ButtonDelete
-                                                onClick={() => {
-                                                    onClickHandlerDelete(data);
-                                                }}
-                                            />
-                                        </ButtonGroup>
-                                    );
+                        <hr />
+                        <div className="mb-2 flex justify-end">
+                            <ButtonCreate onClick={() => onClickHandlerCreate()} />
+                        </div>
+                        <Table
+                            data={props?.dataJadwal?.data}
+                            pagination={props?.dataJadwal}
+                            query={props?.query}
+                            pageName={pageName}
+                            TableHeader={[
+                                {
+                                    text: "Tanggal Samling",
+                                    styleHeader: "text-left",
                                 },
-                            },
-                        ]}
-                    />
-                </CardLayout>
+                                {
+                                    text: "Jam Samling",
+                                    styleHeader: "text-left",
+                                },
+                                {
+                                    text: "Info Samling",
+                                    styleHeader: "text-left",
+                                },
+                                {
+                                    text: "Lokasi Samling",
+                                    styleHeader: "text-left",
+                                },
+                                {
+                                    text: "aksi",
+                                },
+                            ]}
+                            TableContent={[
+                                {
+                                    field: "tgl_samling",
+                                    styleBody: "text-left",
+                                },
+                                {
+                                    field: "jam_samling",
+                                    styleBody: "text-left",
+                                },
+                                {
+                                    field: "info_samling",
+                                    styleBody: "text-left",
+                                },
+                                {
+                                    field: "lokasi_samling",
+                                    styleBody: "text-left",
+                                },
+                                {
+                                    action: (data) => {
+                                        return (
+                                            <ButtonGroup>
+                                                <ButtonInfo
+                                                    onClick={() => {
+                                                        onClickHandlerDetail(data);
+                                                    }}
+                                                />
+                                                <ButtonUpdate
+                                                    onClick={() => {
+                                                        onClickHandlerUpdate(data);
+                                                    }}
+                                                />
+                                                <ButtonDelete
+                                                    onClick={() => {
+                                                        onClickHandlerDelete(data);
+                                                    }}
+                                                />
+                                            </ButtonGroup>
+                                        );
+                                    },
+                                },
+                            ]}
+                        />
+                    </CardLayout> 
+                ) : (
+                    <CardLayout>
+                        <div className="flex items-center flex-col mb-4">
+                            <span className="font-bold text-xl dark:text-white">Jadwal Pelaksanaan Samsat Keliling Counter X</span>
+                        </div>
+                        <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th className="text-center border dark:text-white text-black text-base">Tanggal Samling</th>
+                                    <th className="text-center border dark:text-white text-black text-base">Jam Samling</th>
+                                    <th className="text-center border dark:text-white text-black text-base">Lokasi Samling</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {props?.dataJadwal?.data?.map((data, i) => {
+                                    return (
+                                        <>
+                                            <tr>
+                                                <td className="text-center border dark:text-white">{data.tgl_samling}</td>
+                                                <td className="text-center border dark:text-white">{data.jam_samling}</td>
+                                                <td className="text-center border dark:text-white">{data.lokasi_samling}</td>
+                                            </tr>
+                                        </>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </CardLayout>
+                )}
 
                 {/* Modal Tambah Data */}
                 {modal.show && modal.action === "CREATE" && (
