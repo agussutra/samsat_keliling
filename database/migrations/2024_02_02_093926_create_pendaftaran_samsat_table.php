@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('pendaftaran_samsat', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('wajib_pajak_id');
+            // $table->unsignedBigInteger('wajib_pajak_id');
             $table->unsignedBigInteger('jadwal_id');
             $table->string('kode_pendaftaran');
             $table->integer('status_antrian')->default(1);
             $table->date('tgl_pendaftaran');
-            $table->enum('tipe_pendaftaran',['online','offline']);
+            $table->enum('tipe_pendaftaran', ['online', 'offline']);
 
-            $table->foreign('wajib_pajak_id')->references('id')->on('wajib_pajak')->onDelete('cascade');
+            // $table->foreign('wajib_pajak_id')->references('id')->on('wajib_pajak')->onDelete('cascade');
             $table->foreign('jadwal_id')->references('id')->on('jadwal_pajak')->onDelete('cascade');
-            
+
             $table->timestamps();
         });
     }

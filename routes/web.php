@@ -6,6 +6,7 @@ use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\JadwalSamlingController;
 use App\Http\Controllers\PendaftaranOfflineController;
 use App\Http\Controllers\WajibPajakController;
+use App\Http\Controllers\RegisStnkController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'update']);
     Route::delete('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'delete']);
 
+    Route::resource('/regis_stnk', RegisStnkController::class)->names('stnk');
     Route::resource('/user', RegisteredUserController::class)->names('user');
     Route::resource('/informasi', InformasiController::class)->names('informasi');
     Route::resource('/jadwal_samling', JadwalSamlingController::class)->names('jadwal_samling');
