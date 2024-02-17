@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Regis_Stnk;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -19,18 +20,20 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    
-    //  public function index(Request $request)
-    //  {
-    //      $query = $request->input('search');
-         
-    //      $dataUser = User::where('name','like', "%$query%")->paginate(10);
- 
-    //      return Inertia::render('user/listUser', [
-    //          'dataUser' => $dataUser,
-    //          'query' => $query,
-    //      ]);
-    //  }
+
+    public function index(Request $request)
+    {
+        $query = $request->input('search');
+
+        $dataUser = User::where('name', 'like', "%$query%")->paginate(10);
+        $dataDetailUser = Regis_Stnk::all();
+
+        return Inertia::render('user/listUser', [
+            'dataUser' => $dataUser,
+            'query' => $query,
+            'dataDetailUSer' => $dataDetailUser
+        ]);
+    }
 
 
     public function create(): Response
@@ -48,7 +51,7 @@ class RegisteredUserController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required'],
             'username' => 'required|string|max:255',
             'role' => 'required',
@@ -71,31 +74,28 @@ class RegisteredUserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'password' => ['required'],
-            'username' => 'required|string|max:255',
-            'role' => 'required',
-            'alamat' => 'required',
-            'no_tlp' => 'required|numeric',
+        $dataDetailUser = $request->validate([
+            'plat_kendaraan' => 'required',
+            'tipe_kendaraan' => 'required',
+            'no_stnk' => 'required',
+            'masa_berlaku' => 'required',
         ]);
 
-          User::where('id', $id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'username' => $request->username,
-            'role' => $request->role,
-            'alamat' => $request->alamat,
-            'no_tlp' => $request->no_tlp,
+        $dataDetailUser['id_user'] = $id;
 
-        ]);
-        return redirect()->back();
+        Regis_Stnk::updateOrCreate(
+            ['plat_kendaraan' => $dataDetailUser['plat_kendaraan']],
+            $dataDetailUser
+        );
     }
 
-    public function destroy($id) 
+    public function destroy($id)
     {
         User::where('id', $id)->delete();
         return redirect()->back();
+    }
+
+    public function deleteChild($id) {
+        Regis_Stnk::where('plat_kendaraan', $id)->delete();
     }
 }

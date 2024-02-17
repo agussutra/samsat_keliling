@@ -1,4 +1,4 @@
-import { Link, Head, usePage, useForm, router } from '@inertiajs/react';
+import { Link, Head, usePage, useForm, router, } from '@inertiajs/react';
 import { useState, useEffect } from "react";
 import Layout from '@/Layouts/masterLayout/Layout';
 import {
@@ -19,12 +19,13 @@ const pendaftaranOfflineForm = (props) => {
     });
 
     const { data, setData, post, put, delete: destroy, processing, errors, reset, clearErrors } = useForm({
-        wajib_pajak_id: '',
+        user_id: '',
         jadwal_id: '',
         kode_pendaftaran: props?.kodePendaftaran,
         status_antrian: 1,
         tgl_pendaftaran: '',
         tipe_pendaftaran: 'offline',
+        dataListStnk: []
     });
 
     function submit(e) {
@@ -70,7 +71,20 @@ const pendaftaranOfflineForm = (props) => {
                                         setData={setData}
                                         formError={errors}
                                         dataJadwal={props.dataJadwal}
-                                        dataWajibPajak={props.wajibPajak}
+                                        dataUser={props.dataUser}
+                                    />
+                                </CardLayout>
+                            </div>
+                            <div className='mb-3'>
+                                <h1 className='text-lg font-bold mb-2 dark:text-white'>List Data Samsat <span className='text-red-500'>*</span></h1>
+                                <CardLayout>
+                                    <PendaftaranOfflineContent
+                                        dataForm={data}
+                                        setData={setData}
+                                        formError={errors}
+                                        dataJadwal={props.dataJadwal}
+                                        dataStnk={props.dataStnk ?? null}
+                                        action="RIGHT-FORM"
                                     />
                                 </CardLayout>
                             </div>

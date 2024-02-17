@@ -13,13 +13,16 @@ import {
     ButtonCreate,
     CardLayout,
     Alert,
-    ModalDelete
+    ModalDelete,
+    ButtonGroup,
+    ButtonInfo,
+    ModalDetail
 } from "@/Components"
 import PendaftaranOfflineContent from './__content__/PendaftaranOfflineContent';
 
 const pendaftaranOfflineList = (props) => {
     const pageName = usePage();
-    const {delete: destroy, processing} = useForm();
+    const { delete: destroy, processing } = useForm();
 
     const [modal, setModal] = useState({
         action: "",
@@ -40,11 +43,12 @@ const pendaftaranOfflineList = (props) => {
     const handleClickStatus = (e, id) => {
         const statusAntrian = e + 1;
         if (statusAntrian <= 3) {
-            router.put(`/pendaftaran_offline/${id}`,{statusAntrian});
+            router.put(`/pendaftaran_offline/${id}`, { statusAntrian });
         }
     };
 
     const onClickHandlerDelete = (data) => setModal({ show: true, action: "DELETE", data: data });
+    const onClickHandlerInfo = (data) => setModal({ show: true, action: "DETAIL", data: data });
 
     function submit(e) {
         e.preventDefault();
@@ -52,8 +56,7 @@ const pendaftaranOfflineList = (props) => {
             destroy(`/pendaftaran_offline/${modal?.data?.id}`, {
                 onSuccess: () => {
                     setModal({ ...modal, show: false }),
-                        setAlert({ ...alert, variant: "success", show: true, message: "Data Berhasil Dihapus" }),
-                        reset()
+                        setAlert({ ...alert, variant: "success", show: true, message: "Data Berhasil Dihapus" })
                 },
                 onError: (error) => {
                     setAlert({ ...alert, variant: "error", show: true, message: "Data Gagal Dihapus" });
@@ -65,7 +68,7 @@ const pendaftaranOfflineList = (props) => {
     return (
         <>
             <Layout>
-            <Alert
+                <Alert
                     message={alert.message}
                     variant={alert.variant}
                     show={alert.show}
@@ -101,30 +104,37 @@ const pendaftaranOfflineList = (props) => {
                                     <Td>{row.kode_pendaftaran}</Td>
                                     <Td>{row.tgl_pendaftaran}</Td>
                                     <Td>{row.tgl_samling}</Td>
-                                    <Td>{row.nama}</Td>
+                                    <Td>{row.name}</Td>
                                     <Td>
                                         <button onClick={() => handleClickStatus(row.status_antrian, row.id)} className={`${row.status_antrian === 1 ? 'btn btn-error' : (row.status_antrian === 2 ? 'btn btn-warning' : 'btn btn-success')} btn-sm rounded-md text-white`}>
-                                        {`${row.status_antrian === 1 ? 'Belum Diproses' : (row.status_antrian === 2 ? 'Sedang Diproses' : 'Selesai')}`}
+                                            {`${row.status_antrian === 1 ? 'Belum Diproses' : (row.status_antrian === 2 ? 'Sedang Diproses' : 'Selesai')}`}
                                         </button>
                                     </Td>
                                     <Td>{row.tipe_pendaftaran}</Td>
                                     <Td>
-                                        <ButtonDelete
-                                            onClick={() => {
-                                                onClickHandlerDelete(props?.dataPendaftaran?.data[i]);
-                                            }} />
+                                        <ButtonGroup>
+                                            <ButtonDelete
+                                                onClick={() => {
+                                                    onClickHandlerDelete(props?.dataPendaftaran?.data[i]);
+                                                }} />
+                                                <ButtonInfo
+                                                 onClick={() => {
+                                                    onClickHandlerInfo(props?.dataPendaftaran?.data[i]);
+                                                }}
+                                                />
+                                        </ButtonGroup>
                                     </Td>
                                 </Tr>
                             ))}
                         </TbodyCustom>
                     </TableCustom>
                 </CardLayout>
-                
+
                 {/* Modal Delete Data */}
                 {(modal.show && modal.action === "DELETE") &&
                     <form onSubmit={submit}>
                         <ModalDelete
-                            title="PENDAFTARAN OFFLINE"
+                            title="PENDAFTARAN"
                             onClose={() => setModal({ ...modal, show: false })}
                             processing={processing}
                             type="submit"
@@ -134,6 +144,24 @@ const pendaftaranOfflineList = (props) => {
                                 initialData={modal.data}
                             />
                         </ModalDelete>
+                    </form>
+                }
+
+                {/* Modal Info Data */}
+                {(modal.show && modal.action === "DETAIL") &&
+                    <form onSubmit={submit}>
+                        <ModalDetail
+                            title="PENDAFTARAN"
+                            onClose={() => setModal({ ...modal, show: false })}
+                            processing={processing}
+                            type="submit"
+                        >
+                            <PendaftaranOfflineContent
+                                action={modal.action}
+                                initialData={modal.data}
+                                dataDetail={props.dataStnk}
+                            />
+                        </ModalDetail>
                     </form>
                 }
 

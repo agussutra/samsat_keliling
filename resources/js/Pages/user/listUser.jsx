@@ -30,9 +30,9 @@ const listUser = (props) => {
     const [modal, setModal] = useState({
         action: "",
         data: {},
-        show: false
+        show: false,
     });
-
+    
     const { data, setData, post, put, delete: destroy, processing, errors, reset, clearErrors } = useForm({
         name: '',
         email: '',
@@ -42,6 +42,7 @@ const listUser = (props) => {
         alamat: '',
         no_tlp: '',
     });
+
 
     const [alert, setAlert] = useState({
         variant: "",
@@ -196,12 +197,13 @@ const listUser = (props) => {
 
                 {/* Modal Ubah Data */}
                 {(modal.show && modal.action === "UPDATE") &&
-                    <form onSubmit={submit} method="POST">
                         <ModalUpdate
                             title={Title}
                             onClose={() => setModal({ ...modal, show: false })}
                             processing={processing}
                             type="submit"
+                            widht="w-[1000px]"
+                            onHideButton = {true}
                         >
                             <UserContent
                                 action={modal.action}
@@ -209,9 +211,9 @@ const listUser = (props) => {
                                 setData={setData}
                                 initialData={modal.data}
                                 formError={errors}
+                                dataDetail={props?.dataDetailUSer}
                             />
                         </ModalUpdate>
-                    </form>
                 }
 
                 {/* Modal Delete Data */}

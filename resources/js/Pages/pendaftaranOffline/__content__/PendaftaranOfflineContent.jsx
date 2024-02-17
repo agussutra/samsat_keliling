@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import {
     InputForm,
@@ -6,8 +6,11 @@ import {
     TextArea,
     Dropdown
 } from "@/Components";
+import { FaShare } from "react-icons/fa";
+import { RiDeleteBack2Fill } from "react-icons/ri";
+import { useForm } from '@inertiajs/react';
 
-const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, formError, dataJadwal, dataWajibPajak }) => {
+const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, formError, dataJadwal, dataUser, dataStnk, dataDetail }) => {
 
     const handleInputChange = (name, value) => {
         setData(name, value)
@@ -31,10 +34,10 @@ const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, for
         { value: 3, label: 'Selesai' },
     ];
 
-    const dropdownWajibPajak = dataWajibPajak?.map((object) => {
+    const dropdownUser = dataUser?.map((object) => {
         return {
             value: object.id,
-            label: object.nama
+            label: object.name
         }
     })
 
@@ -57,15 +60,166 @@ const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, for
         )
     }
 
+    
+    if (action === "DETAIL") {
+        const detailStnk = dataDetail.filter(dataDetail => dataDetail.id_user === initialData.id_user);
+        return (
+            <>
+                <div>
+                    <div className="grid grid-cols-2 gap-1 mb-2">
+                        <ItemHorizontal label="No. Pendaftaran" value={initialData.kode_pendaftaran} />
+                        <ItemHorizontal label="Nama" value={initialData.name} />
+                    </div>
+                    <div className="grid grid-cols-2 gap-1 mb-2">
+                        <ItemHorizontal label="Jadwal" value={initialData.tgl_samling} />
+                        <ItemHorizontal label="Status Antrian" value={initialData.status_antrian === 1 ? 'Belum diproses' : (initialData.status_antrian === 2 ? 'Sedang diproses' : 'Selesai')} />
+                    </div>
+                    <div className="mt-2">
+                        <div className="overflow-x-auto">
+                            <table className="table table-md table-pin-rows table-pin-cols">
+                                <thead>
+                                    <tr>
+                                        <td>No.</td>
+                                        <td>No. Stnk</td>
+                                        <td>No. Plat</td>
+                                        <td>Tipe Kendaraan</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {detailStnk?.map((field, i) => (
+                                    <tr key={i}>
+                                        <td>{i + 1}</td>
+                                        <td>{field.no_stnk}</td>
+                                        <td>{field.plat_kendaraan}</td>
+                                        <td>{field.tipe_kendaraan}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+    useEffect(() => {
+        if (dataStnk) {
+            const dataStnkFill = dataStnk.filter(data => data.id_user === dataForm.user_id);
+            setValueList(dataStnkFill);
+        }
+    }, [dataStnk, dataForm.user_id]);
+
+    const [valueList, setValueList] = useState([]);
+
+    const sharedData = (i) => {
+        const updatedValueList = [...valueList];
+        updatedValueList.splice(i, 1);
+        setValueList(updatedValueList);
+
+        const newData = [...dataForm.dataListStnk];
+        newData.splice(i, 0, valueList[i]);
+
+        setData({
+            ...dataForm,
+            dataListStnk: newData
+        });
+
+    }
+
+    const removeArray = (i, item) => {
+        const updatedValueList = [...valueList];
+        updatedValueList.push(item);
+        setValueList(updatedValueList);
+
+
+        const newData = [...dataForm.dataListStnk]
+        newData.splice(i, 1);
+
+        setData({
+            ...dataForm,
+            dataListStnk: newData
+        })
+    }
+
+
+    if (action === "RIGHT-FORM") {
+        return (
+            <>
+                <div className="w-full">
+                    <div className="mb-3">
+                        <span className="font-bold dark:text-white">Silahkan Pilih Yang Akan Di Daftarkan</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="table table-md table-pin-rows table-pin-cols">
+                            <thead>
+                                <tr>
+                                    <td className="dark:bg-slate-700 dark:text-white">No. Stnk</td>
+                                    <td className="dark:bg-slate-700 dark:text-white">Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {valueList?.map((field, i) => (
+                                    <tr key={i}>
+                                        <td className="dark:bg-slate-700 dark:text-white">{field.no_stnk}</td>
+                                        <td className="dark:bg-slate-700 dark:text-white">
+                                            <button type="button" className="btn btn-primary btn-outline btn-sm" onClick={() => sharedData(i)} >
+                                                <FaShare />
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="mt-3">
+                        <div className="mb-3">
+                            <span className="font-bold dark:text-white">List Yang Akan Di Daftarkan</span>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="table table-md table-pin-rows table-pin-cols">
+                                <thead>
+                                    <tr>
+                                        <td className="dark:bg-slate-700 dark:text-white">No. Stnk</td>
+                                        <td className="dark:bg-slate-700 dark:text-white">Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        dataForm?.dataListStnk?.length > 0 ?
+                                            dataForm?.dataListStnk?.map((field, i) => (
+                                                <tr key={i}>
+                                                    <td className="dark:bg-slate-700 dark:text-white">{field.no_stnk}</td>
+                                                    <td className="dark:bg-slate-700 dark:text-white">
+                                                        <button type="button" onClick={() => removeArray(i, field)} className={`btn btn-error btn-outline btn-sm ${dataForm?.dataListStnk?.length < 0 && 'hidden'}`} >
+                                                            <RiDeleteBack2Fill />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                            ) :
+                                            null
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
     return (
         <>
             <React.Fragment>
                 <Dropdown
                     label="Wajib Pajak"
-                    data={dropdownWajibPajak}
-                    onChange={(value) => handleInputChange('wajib_pajak_id', value)}
-                    value={dataForm?.wajib_pajak_id}
-                    errors={formError.wajib_pajak_id}
+                    data={dropdownUser}
+                    onChange={(value) => handleInputChange('user_id', value)}
+                    value={dataForm?.user_id}
+                    errors={formError.user_id}
                 />
                 <InputForm
                     label="Kode Pendaftaran"
@@ -109,5 +263,7 @@ const PendaftaranOfflineContent = ({ action, initialData, dataForm, setData, for
             </React.Fragment>
         </>
     )
+
+
 };
 export default PendaftaranOfflineContent; 

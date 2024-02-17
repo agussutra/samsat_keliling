@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'update']);
     Route::delete('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'delete']);
 
+    Route::delete('/user/deleteChild/{id}', [RegisteredUserController::class, 'deleteChild']);
+
     Route::resource('/regis_stnk', RegisStnkController::class)->names('stnk');
     Route::resource('/user', RegisteredUserController::class)->names('user');
     Route::resource('/informasi', InformasiController::class)->names('informasi');

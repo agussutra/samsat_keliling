@@ -1,7 +1,7 @@
 import { PiBookOpenTextFill } from "react-icons/pi";
 
 export const DaftarSamling = {
-    link: "/daftar_samling",
+    link: "/pendaftaran_offline",
     name: "DAFTAR SAMLING",
     icon: <PiBookOpenTextFill />,
 };

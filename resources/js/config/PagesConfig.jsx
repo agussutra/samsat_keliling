@@ -17,10 +17,10 @@ const pagesConfig = () => {
         InformasiSamling,
         JadwalSamling,
         role === 1 ? ProfilUser : "",
-        role === 1 ? WajibPajak : "",
+        // role === 1 ? WajibPajak : "",
         role === 2 ? RegisStnk : "",
         role === 2 ? PendaftaranOffline : "",
-        role === 1 ? "" : DaftarSamling,
+        role === 2 ? "" : DaftarSamling,
     ];
     return { page: PagesConfig };
 };

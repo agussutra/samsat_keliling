@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Traits\MasterCrud;
 use App\Models\Jadwal_Samling;
+use App\Models\Pendaftaran_detail;
 use App\Models\Pendaftaran_Offline;
+use App\Models\Regis_Stnk;
+use App\Models\User;
 use App\Models\Wajib_pajak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,15 +32,24 @@ class PendaftaranOfflineController extends Controller
         $query = $request->input('search');
 
         $dataPendaftaran = DB::table('pendaftaran_samsat')
-            ->select('pendaftaran_samsat.*', 'jadwal_pajak.tgl_samling', 'wajib_pajak.nama')
+            ->select('pendaftaran_samsat.*', 'users.name','users.id as id_user', 'jadwal_pajak.tgl_samling')
+            ->leftJoin('pendaftaran_samsat_detail', 'pendaftaran_samsat_detail.id_pendaftaran', '=', 'pendaftaran_samsat.id')
+            ->leftJoin('users', 'users.id', '=', 'pendaftaran_samsat_detail.id_user')
             ->leftJoin('jadwal_pajak', 'jadwal_pajak.id', '=', 'pendaftaran_samsat.jadwal_id')
-            ->leftJoin('wajib_pajak', 'wajib_pajak.id', '=', 'pendaftaran_samsat.wajib_pajak_id')
             ->where('kode_pendaftaran', 'like', "%$query%")
+            ->distinct('users.name')
             ->paginate(10);
+
+            $dataStnk = DB::table('stnk')
+                ->select('stnk.*')
+                ->Join('pendaftaran_samsat_detail','pendaftaran_samsat_detail.id_stnk','=', 'stnk.id')
+                ->get();
+
 
         return Inertia::render('pendaftaranOffline/pendaftaranOfflineList', [
             'dataPendaftaran' => $dataPendaftaran,
             'query' => $query,
+            'dataStnk' => $dataStnk
         ]);
     }
 
@@ -46,18 +58,21 @@ class PendaftaranOfflineController extends Controller
         $lastCode = Pendaftaran_Offline::latest()->value('kode_pendaftaran');
         $kodePendaftaran = 'AN' . str_pad(intval(substr($lastCode, 2)) + 1, 3, '0', STR_PAD_LEFT);
         $dataJadwal = Jadwal_Samling::all();
-        $dataWajibPajak = Wajib_pajak::all();
+        $dataUser = User::all();
+        $dataStnk = Regis_Stnk::all();
         return Inertia::render('pendaftaranOffline/pendaftaranOfflineForm', [
             'action' => 'CREATE',
             'dataJadwal' => $dataJadwal,
             'title' => 'Create Pendaftaran',
             'kodePendaftaran' => $kodePendaftaran,
-            'wajibPajak' => $dataWajibPajak
+            'dataUser' => $dataUser,
+            'dataStnk' => $dataStnk
         ]);
     }
 
     public function store(Request $request)
     {
+
         $validateData = $request->validate(
             [
                 'kode_pendaftaran' => 'required|unique:pendaftaran_samsat,kode_pendaftaran',
@@ -65,7 +80,7 @@ class PendaftaranOfflineController extends Controller
                 'tgl_pendaftaran' => 'required',
                 'tipe_pendaftaran' => 'required',
                 'jadwal_id' => 'required',
-                'wajib_pajak_id' => 'required',
+                'user_id' => 'required',
 
             ],
             [
@@ -75,21 +90,28 @@ class PendaftaranOfflineController extends Controller
                 'tipe_pendaftaran.required' => 'Field no tipe pendaftaran harus diisi.',
                 'jadwal_id.required' => 'Field jadwal pendaftaran harus diisi.',
                 'kode_pendaftaran.unique' => 'Field kode pendaftaran tidak boleh sama.',
-                'wajib_pajak_id.required' => 'Field wajib pajak pendaftaran harus diisi.',
+                'user_id.required' => 'Field User harus diisi.',
             ]
         );
 
+        
         try {
             DB::beginTransaction();
-            Pendaftaran_Offline::create([
-                'wajib_pajak_id' => $validateData['wajib_pajak_id'],
+            $Pendaftaran_master = Pendaftaran_Offline::create([
                 'jadwal_id' => $validateData['jadwal_id'],
                 'kode_pendaftaran' => $validateData['kode_pendaftaran'],
                 'status_antrian' => $validateData['status_antrian'],
                 'tgl_pendaftaran' => $validateData['tgl_pendaftaran'],
                 'tipe_pendaftaran' => $validateData['tipe_pendaftaran'],
-            ]);
-
+            ]); 
+    
+            foreach ($request->dataListStnk as $value) {
+                Pendaftaran_detail::create([
+                    'id_user' => $value['id_user'],
+                    'id_pendaftaran' => $Pendaftaran_master->id,
+                    'id_stnk' => $value['id']
+                ]);
+            }
             DB::commit();
             return redirect()->back();
         } catch (\Exception $e) {
