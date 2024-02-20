@@ -19,8 +19,8 @@ const pagesConfig = () => {
         role === 1 ? ProfilUser : "",
         // role === 1 ? WajibPajak : "",
         role === 2 ? RegisStnk : "",
-        role === 2 ? PendaftaranOffline : "",
-        role === 2 ? "" : DaftarSamling,
+        // role === 2 ? PendaftaranOffline : "",
+        DaftarSamling
     ];
     return { page: PagesConfig };
 };
