@@ -45,6 +45,7 @@ const pendaftaranSamlingList = (props) => {
         if (statusAntrian <= 3) {
             router.put(`/pendaftaran_samling/${id}`, { statusAntrian });
         }
+        // router.reload({ only: ['/'] });
     };
 
     const onClickHandlerDelete = (data) => setModal({ show: true, action: "DELETE", data: data });

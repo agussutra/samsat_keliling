@@ -1,13 +1,19 @@
 import { React, useState } from "react";
-import { usePage, Head, useForm } from "@inertiajs/react";
+import { usePage, Head, useForm, router } from "@inertiajs/react";
 import Layout from '@/Layouts/masterLayout/Layout';
-import { HeaderMenu, CardLayout, Alert } from "@/Components";
+import { HeaderMenu, CardLayout, Alert, ButtonRefresh } from "@/Components";
 import { PiPencilSimpleLineFill } from "react-icons/pi";
 import { IoPeople } from "react-icons/io5";
 
 const dashboardList = (props) => {
     const date = new Date();
     const role = usePage()?.props?.auth?.user?.role;
+
+    const handleRefresh = () => {
+        // router.reload({ only: ['/'] });
+        // window.location.reload();
+        router.visit('/');
+    };
 
     return (
         <>
@@ -27,7 +33,7 @@ const dashboardList = (props) => {
                     </div>
                 ) : "" }
                 <div className="w-full bg-yellow-300 p-4 rounded-md mb-3">
-                    <div className="flex items-center">
+                    <div className="relative flex items-center">
                         <div className="mr-3">
                             {role === 1 ? <PiPencilSimpleLineFill className="dark:text-white" /> : <IoPeople className="dark:text-white" /> }
                         </div>
@@ -35,6 +41,11 @@ const dashboardList = (props) => {
                             <span className="font-bold text-lg dark:text-white">
                                 { role === 1 ? "Data Samsat Keliling Yang Sudah Selesai " + props.totalSelesai : "Antrian Samsat Keliling" }
                             </span>
+                        </div>
+                        <div className="absolute inset-y-0 right-0">
+                            <ButtonRefresh onClick={() => {
+                                handleRefresh();
+                            }}/>
                         </div>
                     </div>
                 </div>
@@ -60,7 +71,7 @@ const dashboardList = (props) => {
                                             <tr>
                                                 <td className="text-center border dark:text-white">{data.kode_pendaftaran}</td>
                                                 <td className="text-center border dark:text-white">{data.tipe_pendaftaran}</td>
-                                                <td className="text-center border dark:text-white">{data.status_antrian === 1 ? 'Belum Diproses' : (data.status_antrian === 2 ? 'Sedang Diproses' : 'Selesai')}</td>
+                                                <td className="text-center border dark:text-white">{data.status_antrian === 1 ? 'Belum Dipanggil' : (data.status_antrian === 2 ? 'Sedang Diproses' : 'Selesai')}</td>
                                             </tr>
                                         </>
                                     );
@@ -85,16 +96,18 @@ const dashboardList = (props) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            {props?.dataJadwal?.data?.map((data, i) => {
-                                            return (
-                                                <>
-                                                    <tr>
-                                                        <td className="text-center border dark:text-white">{data.tgl_samling}</td>
-                                                        <td className="text-center border dark:text-white">{data.jam_samling}</td>
-                                                        <td className="text-center border dark:text-white">{data.lokasi_samling}</td>
-                                                    </tr>
-                                                </>
-                                            );
+                                        {props?.pendaftaranSamsat?.map((data, i) => {
+                                            if (data.status_antrian == 1) {
+                                                return (
+                                                    <>
+                                                        <tr>
+                                                            <td className="text-center border dark:text-white">{data.kode_pendaftaran}</td>
+                                                            <td className="text-center border dark:text-white">{data.tipe_pendaftaran}</td>
+                                                            <td className="text-center border dark:text-white">{data.status_antrian === 1 ? 'Belum Dipanggil' : ""}</td>
+                                                        </tr>
+                                                    </>
+                                                );
+                                            }
                                         })}
                                     </tbody>
                                 </table>
@@ -107,9 +120,9 @@ const dashboardList = (props) => {
                                 </div>
                                 <div className="grid grid-cols-3 gap-4 mt-10">
                                     <div className="col-span-1 mb-8 dark:text-white">Nama</div>
-                                    <div className="col-span-2 mb-8 dark:text-white border-b-2 border-black dark:border-white dark:text-white">I Ketut Statis</div>
+                                    <div className="col-span-2 mb-8 dark:text-white border-b-2 border-black dark:border-white dark:text-white">{props?.pendaftaranSedangDiproses?.name}</div>
                                     <div className="col-span-1 mb-8 dark:text-white">Nomor Antrian</div>
-                                    <div className="col-span-2 mb-8 dark:text-white border-b-2 border-black dark:border-white">A023</div>
+                                        <div className="col-span-2 mb-8 dark:text-white border-b-2 border-black dark:border-white">{props?.pendaftaranSedangDiproses?.kode_pendaftaran}</div>
                                     
                                     <div className="bg-blue-300 p-4 rounded-md text-center dark:text-white rounded-r-[100px] mt-8">Sedang Diproses</div>
                                 </div>
