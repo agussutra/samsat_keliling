@@ -21,7 +21,6 @@ class DashboardController extends Controller
         $pendaftaranSamsat = Pendaftaran_Offline::select('pendaftaran_samsat.*')
                             ->leftjoin('jadwal_pajak','jadwal_pajak.id','=','pendaftaran_samsat.jadwal_id')
                             ->where('status_antrian','!=',3)
-                            ->where('jadwal_pajak.tgl_samling','=', now()->format('Y-m-d'))
                             ->orderBy('status_antrian', 'desc')
                             ->get();
         $totalPendaftaran = Pendaftaran_Offline::count();

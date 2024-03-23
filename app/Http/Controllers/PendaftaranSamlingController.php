@@ -58,8 +58,7 @@ class PendaftaranSamlingController extends Controller
     {
         $lastCode = Pendaftaran_Samling::latest()->value('kode_pendaftaran');
         $kodePendaftaran = 'AN' . str_pad(intval(substr($lastCode, 2)) + 1, 3, '0', STR_PAD_LEFT);
-        $cur_date = date('Y-m-d');
-        $dataJadwal = Jadwal_Samling::where('tgl_samling', $cur_date)->orderBy('tgl_samling')->orderBy('jam_samling')->get();
+        $dataJadwal = Jadwal_Samling::orderBy('tgl_samling')->orderBy('jam_samling')->get();
         $dataUser = User::where('role', '!=', 1)->get();
         $dataStnk = Regis_Stnk::all();
         return Inertia::render('pendaftaranSamling/pendaftaranSamlingForm', [
