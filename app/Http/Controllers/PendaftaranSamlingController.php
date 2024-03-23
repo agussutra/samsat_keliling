@@ -32,12 +32,21 @@ class PendaftaranSamlingController extends Controller
     {
         $query = $request->input('search');
 
+        // Get the authenticated user
+        $user = auth()->user();
+        // Now you can access the properties of the authenticated user
+        $userRole = $user->role;
+        $userId = $user->id;
+
         $dataPendaftaran = DB::table('pendaftaran_samsat')
             ->select('pendaftaran_samsat.*', 'users.name', 'users.id as id_user', 'jadwal_pajak.tgl_samling')
             ->leftJoin('pendaftaran_samsat_detail', 'pendaftaran_samsat_detail.id_pendaftaran', '=', 'pendaftaran_samsat.id')
             ->leftJoin('users', 'users.id', '=', 'pendaftaran_samsat_detail.id_user')
             ->leftJoin('jadwal_pajak', 'jadwal_pajak.id', '=', 'pendaftaran_samsat.jadwal_id')
             ->where('kode_pendaftaran', 'like', "%$query%")
+            ->when($userRole === 2, function ($query) use ($userId) {
+                return $query->where('users.id', $userId);
+            })
             ->distinct('users.name')
             ->paginate(10);
 
@@ -59,7 +68,7 @@ class PendaftaranSamlingController extends Controller
         $lastCode = Pendaftaran_Samling::latest()->value('kode_pendaftaran');
         $kodePendaftaran = 'AN' . str_pad(intval(substr($lastCode, 2)) + 1, 3, '0', STR_PAD_LEFT);
         $dataJadwal = Jadwal_Samling::orderBy('tgl_samling')->orderBy('jam_samling')->get();
-        $dataUser = User::where('role', '!=', 1)->get();
+        $dataUser = User::all();
         $dataStnk = Regis_Stnk::all();
         return Inertia::render('pendaftaranSamling/pendaftaranSamlingForm', [
             'action' => 'CREATE',

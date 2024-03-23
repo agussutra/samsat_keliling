@@ -112,12 +112,15 @@ const PendaftaranSamlingContent = ({ action, initialData, dataForm, setData, for
 
     useEffect(() => {
         if (dataStnk) {
-            const dataStnkFill = dataStnk.filter(data => data.id_user === role === 1 ? dataForm.user_id : id_user);
+            const dataStnkFill = dataStnk.filter(data => data.id_user === dataForm.user_id);
             setValueList(dataStnkFill);
         }
     }, [dataStnk, dataForm.user_id]);
 
     const [valueList, setValueList] = useState([]);
+    console.log(valueList);
+    console.log(dataForm.user_id);
+
 
     const sharedData = (i) => {
         const updatedValueList = [...valueList];
