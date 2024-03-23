@@ -22,6 +22,8 @@ import PendaftaranSamlingContent from './__content__/PendaftaranSamlingContent';
 
 const pendaftaranSamlingList = (props) => {
     const pageName = usePage();
+    const role = pageName?.props?.auth?.user?.role
+
     const { delete: destroy, processing } = useForm();
 
     const [modal, setModal] = useState({
@@ -112,23 +114,26 @@ const pendaftaranSamlingList = (props) => {
                                     <Td>{formatDate(row.tgl_samling)}</Td>
                                     <Td>{row.name}</Td>
                                     <Td>
-                                        <button onClick={() => handleClickStatus(row.status_antrian, row.id)} className={`${row.status_antrian === 1 ? 'btn btn-error' : (row.status_antrian === 2 ? 'btn btn-warning' : 'btn btn-success')} btn-sm rounded-md text-white`}>
+                                        <button disabled={role === 2 ? true : false}  onClick={() => handleClickStatus(row.status_antrian, row.id)} className={`${row.status_antrian === 1 ? 'btn btn-error' : (row.status_antrian === 2 ? 'btn btn-warning' : 'btn btn-success')} btn-sm rounded-md text-white` } >
                                             {`${row.status_antrian === 1 ? 'Belum Diproses' : (row.status_antrian === 2 ? 'Sedang Diproses' : 'Selesai')}`}
                                         </button>
                                     </Td>
                                     <Td>{row.tipe_pendaftaran}</Td>
                                     <Td>
-                                        <ButtonGroup>
-                                            <ButtonDelete
+                                        <div className='flex gap-2'>
+                                        {
+                                                role === 1 &&
+                                                <ButtonDelete
                                                 onClick={() => {
                                                     onClickHandlerDelete(props?.dataPendaftaran?.data[i]);
                                                 }} />
+                                            }
                                                 <ButtonInfo
                                                  onClick={() => {
                                                     onClickHandlerInfo(props?.dataPendaftaran?.data[i]);
                                                 }}
                                                 />
-                                        </ButtonGroup>
+                                        </div>
                                     </Td>
                                 </Tr>
                             ))}

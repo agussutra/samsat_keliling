@@ -18,7 +18,7 @@ class UserTableSeeder extends Seeder
         User::create([
             'name' => 'Administrator',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('asdasdasd'),
+            'password' => Hash::make('123456'),
             'username' => 'admin',
             'role' => 1,
             'alamat' => '-',
@@ -29,7 +29,7 @@ class UserTableSeeder extends Seeder
         User::create([
             'name' => 'Dede',
             'email' => 'dede@gmail.com',
-            'password' => Hash::make('asdasdasd'),
+            'password' => Hash::make('123456'),
             'username' => 'dede',
             'role' => 2,
             'alamat' => 'Jongol',
