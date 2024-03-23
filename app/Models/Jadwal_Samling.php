@@ -20,7 +20,7 @@ class Jadwal_Samling extends Model
 
     public function getTglSamlingAttribute($value)
     {
-        return date('d/m/Y', strtotime($value)); // Capitalize the name when retrieving it
+        return date('d/m/Y', strtotime($value));
     }
 
     public function getJamSamlingAttribute($value)

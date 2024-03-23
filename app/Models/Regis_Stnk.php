@@ -12,4 +12,9 @@ class Regis_Stnk extends Model
     protected $table = 'stnk';
     protected $primaryKey = 'id';
     protected $fillable = ['plat_kendaraan', 'tipe_kendaraan', 'no_stnk', 'masa_berlaku', 'id_user'];
+
+    public function getMasaBerlakuAttribute($value)
+    {
+        return date('d/m/Y', strtotime($value)); // reformating date when retrieving it
+    }
 }

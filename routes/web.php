@@ -4,7 +4,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\JadwalSamlingController;
-use App\Http\Controllers\PendaftaranOfflineController;
+use App\Http\Controllers\PendaftaranSamlingController;
+// use App\Http\Controllers\PendaftaranOfflineController;
 use App\Http\Controllers\WajibPajakController;
 use App\Http\Controllers\RegisStnkController;
 use Illuminate\Support\Facades\Route;
@@ -27,11 +28,17 @@ use Inertia\Inertia;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/pendaftaran_offline', [PendaftaranOfflineController::class, 'index']);
-    Route::get('/pendaftaran_offline/form', [PendaftaranOfflineController::class, 'form']);
-    Route::post('/pendaftaran_offline', [PendaftaranOfflineController::class, 'store']);
-    Route::put('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'update']);
-    Route::delete('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'delete']);
+    // Route::get('/pendaftaran_offline', [PendaftaranOfflineController::class, 'index']);
+    // Route::get('/pendaftaran_offline/form', [PendaftaranOfflineController::class, 'form']);
+    // Route::post('/pendaftaran_offline', [PendaftaranOfflineController::class, 'store']);
+    // Route::put('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'update']);
+    // Route::delete('/pendaftaran_offline/{id}', [PendaftaranOfflineController::class, 'delete']);
+
+    Route::get('/pendaftaran_samling', [PendaftaranSamlingController::class, 'index']);
+    Route::get('/pendaftaran_samling/form', [PendaftaranSamlingController::class, 'form']);
+    Route::post('/pendaftaran_samling', [PendaftaranSamlingController::class, 'store']);
+    Route::put('/pendaftaran_samling/{id}', [PendaftaranSamlingController::class, 'update']);
+    Route::delete('/pendaftaran_samling/{id}', [PendaftaranSamlingController::class, 'delete']);
 
     Route::delete('/user/deleteChild/{id}', [RegisteredUserController::class, 'deleteChild']);
 
