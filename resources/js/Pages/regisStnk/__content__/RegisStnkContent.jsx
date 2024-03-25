@@ -3,6 +3,7 @@ import {
     InputForm,
     ItemVertical,
 } from "@/Components";
+import {dateFormat} from "../../../Function"
 
 
 const RegisStnkContent = ({ action, initialData, dataForm, setData, formError }) => {
@@ -68,7 +69,7 @@ const RegisStnkContent = ({ action, initialData, dataForm, setData, formError })
             />
             <InputForm
                 label="Masa Berlaku"
-                value={dataForm?.masa_berlaku}
+                value={dateFormat(dataForm?.masa_berlaku)}
                 type="date"
                 onChange={(value) => handleInputChange('masa_berlaku', value)}
                 errors={formError.masa_berlaku}

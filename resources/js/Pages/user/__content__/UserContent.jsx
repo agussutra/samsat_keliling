@@ -13,6 +13,7 @@ import { RxUpdate } from "react-icons/rx";
 import { CiSaveDown1 } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import { router } from '@inertiajs/react'
+import { dateFormat } from "@/Function";
 
 
 
@@ -230,7 +231,7 @@ const UserContent = ({ action, initialData, dataForm, setData, formError, dataDe
                                             field.masa_berlaku
                                         ) : (
                                             <InputForm
-                                                value={field?.masa_berlaku}
+                                                value={dateFormat(field?.masa_berlaku)}
                                                 type="date"
                                                 onChange={(value) => handleInputChangeList(i, 'masa_berlaku', value)}
                                                 errors={formError.masa_berlaku}
