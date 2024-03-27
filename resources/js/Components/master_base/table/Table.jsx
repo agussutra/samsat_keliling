@@ -55,7 +55,7 @@ const Table = ({ TableHeader, data, TableContent, pagination, query, pageName })
             {isLoading ? <ImSpinner2 className='mx-auto animate-spin text-blue-500 text-4xl' /> 
             : 
             <div className="overflow-x-auto">
-               <table className="table table-bordered">
+                <table className="table table-bordered">
                     <thead>
                         <tr>
                             <td className={`${data?.styleHeader ?? ''} dark:text-white`}>No</td>
@@ -76,6 +76,8 @@ const Table = ({ TableHeader, data, TableContent, pagination, query, pageName })
                                             row[content.field]
                                         ) : content.action ? (
                                             content.action(row)
+                                        ) : content.valquotatext ? (
+                                            row[content.valquotatext]+"/30"
                                         ) : null}
                                     </td>
                                 ))}

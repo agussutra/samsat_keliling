@@ -188,6 +188,10 @@ const jadwalSamling = (props) => {
                                     styleHeader: "text-left",
                                 },
                                 {
+                                    text: "Quota",
+                                    styleHeader: "text-left",
+                                },
+                                {
                                     text: "aksi",
                                 },
                             ]}
@@ -206,6 +210,10 @@ const jadwalSamling = (props) => {
                                 },
                                 {
                                     field: "lokasi_samling",
+                                    styleBody: "text-left",
+                                },
+                                {
+                                    valquotatext: "remaining_quota",
                                     styleBody: "text-left",
                                 },
                                 {
@@ -245,6 +253,7 @@ const jadwalSamling = (props) => {
                                     <th className="text-center border dark:text-white text-black text-base">Tanggal Samling</th>
                                     <th className="text-center border dark:text-white text-black text-base">Jam Samling</th>
                                     <th className="text-center border dark:text-white text-black text-base">Lokasi Samling</th>
+                                    <th className="text-center border dark:text-white text-black text-base">Quota</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -255,6 +264,7 @@ const jadwalSamling = (props) => {
                                                 <td className="text-center border dark:text-white">{data.tgl_samling}</td>
                                                 <td className="text-center border dark:text-white">{data.jam_samling}</td>
                                                 <td className="text-center border dark:text-white">{data.lokasi_samling}</td>
+                                                <td className="text-center border dark:text-white">{data.count}/30</td>
                                             </tr>
                                         </>
                                     );

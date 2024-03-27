@@ -29,13 +29,6 @@ class PendaftaranSamlingController extends Controller
      * Display a listing of the resource.
      */
 
-    private function _checkQuota($val)
-    {
-        $max_quota = 30;
-        $remaining_quota = $max_quota - $val;
-        return $remaining_quota;
-    }
-
     public function index(Request $request)
     {
         $query = $request->input('search');
@@ -63,14 +56,10 @@ class PendaftaranSamlingController extends Controller
             ->Join('pendaftaran_samsat_detail', 'pendaftaran_samsat_detail.id_stnk', '=', 'stnk.id')
             ->get();
 
-        $get_pendaftar = DB::table('pendaftaran_samsat')->where('tgl_pendaftaran', date("Y-m-d"))->count();
-        $quota = $this->_checkQuota($get_pendaftar);
-
         return Inertia::render('pendaftaranSamling/pendaftaranSamlingList', [
             'dataPendaftaran' => $dataPendaftaran,
             'query' => $query,
             'dataStnk' => $dataStnk,
-            'quota' => $quota
         ]);
     }
 
@@ -99,7 +88,7 @@ class PendaftaranSamlingController extends Controller
                 'status_antrian' => 'required',
                 'tgl_pendaftaran' => 'required',
                 'tipe_pendaftaran' => 'required',
-                'jadwal_id' => 'required',
+                'jadwal_id' => 'required|check_quota',
                 'user_id' => 'required',
 
             ],
@@ -109,6 +98,7 @@ class PendaftaranSamlingController extends Controller
                 'tgl_pendaftaran.required' => 'Field no tgl pendaftaran harus diisi.',
                 'tipe_pendaftaran.required' => 'Field no tipe pendaftaran harus diisi.',
                 'jadwal_id.required' => 'Field jadwal pendaftaran harus diisi.',
+                'jadwal_id.check_quota' => 'Quota sudah penuh',
                 'kode_pendaftaran.unique' => 'Field kode pendaftaran tidak boleh sama.',
                 'user_id.required' => 'Field User harus diisi.',
             ]

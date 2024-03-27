@@ -40,7 +40,18 @@ class JadwalSamlingController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('search');
-        $dataJadwal = Jadwal_Samling::where('lokasi_samling', 'like', "%$query%")->orderBy('tgl_samling')->orderBy('jam_samling')->paginate(10);
+        $dataJadwal = DB::table('jadwal_pajak AS jp')
+            ->select(
+                DB::raw('(SELECT COUNT(id) FROM pendaftaran_samsat WHERE jadwal_id = jp.id) AS remaining_quota'),
+                'jp.*'
+            )
+            ->where('lokasi_samling', 'like', "%$query%")
+            ->orderBy('tgl_samling')
+            ->orderBy('jam_samling')
+            ->groupBy('jp.id')
+            ->paginate(10);
+
+        // Jadwal_Samling::where('lokasi_samling', 'like', "%$query%")->orderBy('tgl_samling')->orderBy('jam_samling')->paginate(10);
         return Inertia::render('jadwalSamling/jadwalSamling', [
             'dataJadwal' => $dataJadwal,
             'query' => $query,

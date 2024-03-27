@@ -118,9 +118,6 @@ const PendaftaranSamlingContent = ({ action, initialData, dataForm, setData, for
     }, [dataStnk, dataForm.user_id]);
 
     const [valueList, setValueList] = useState([]);
-    console.log(valueList);
-    console.log(dataForm.user_id);
-
 
     const sharedData = (i) => {
         const updatedValueList = [...valueList];

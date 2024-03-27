@@ -86,7 +86,7 @@ const pendaftaranSamlingList = (props) => {
                 <Head title="PENDAFTARAN SAMLING" />
                 <HeaderMenu namePages="PENDAFTARAN SAMLING" />
 
-                <div className={"w-full " + (props?.quota !== 0 ? 'bg-blue-400 p-4 rounded-md mb-3' : 'bg-red-400 p-4 rounded-md mb-3')}>
+                {/* <div className={"w-full " + (props?.quota !== 0 ? 'bg-blue-400 p-4 rounded-md mb-3' : 'bg-red-400 p-4 rounded-md mb-3')}>
                     <div className="flex items-center">
                         <div className="mr-3">
                             <FaClipboardList className="dark:text-white" />
@@ -97,7 +97,7 @@ const pendaftaranSamlingList = (props) => {
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 
                 <CardLayout>
                     <div className="mb-2 flex justify-end">
@@ -144,7 +144,7 @@ const pendaftaranSamlingList = (props) => {
                                                 }} />
                                             }
                                                 <ButtonInfo
-                                                 onClick={() => {
+                                                onClick={() => {
                                                     onClickHandlerInfo(props?.dataPendaftaran?.data[i]);
                                                 }}
                                                 />

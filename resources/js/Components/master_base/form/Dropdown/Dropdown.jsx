@@ -6,7 +6,8 @@ const Dropdown = ({
     onChange,
     data,
     value,
-    disabled,
+  disabled,
+    errors
 }) => {
    const [theme, setTheme] = useState('light');
 
@@ -65,7 +66,8 @@ const Dropdown = ({
                           },
                     }
                 }
-            />
+        />
+        {errors && <span className="text-red-400 text-sm">{errors} !</span>}
         </div>
     )
 };
