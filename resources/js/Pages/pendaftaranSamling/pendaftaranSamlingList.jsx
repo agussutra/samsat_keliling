@@ -1,6 +1,7 @@
 import { Link, Head, usePage, useForm, router } from '@inertiajs/react';
 import { useState, useEffect } from "react";
 import Layout from '@/Layouts/masterLayout/Layout';
+import { FaClipboardList } from "react-icons/fa";
 import {
     TableCustom,
     Td,
@@ -84,6 +85,20 @@ const pendaftaranSamlingList = (props) => {
                 />
                 <Head title="PENDAFTARAN SAMLING" />
                 <HeaderMenu namePages="PENDAFTARAN SAMLING" />
+
+                <div className={"w-full " + (props?.quota !== 0 ? 'bg-blue-400 p-4 rounded-md mb-3' : 'bg-red-400 p-4 rounded-md mb-3')}>
+                    <div className="flex items-center">
+                        <div className="mr-3">
+                            <FaClipboardList className="dark:text-white" />
+                        </div>
+                        <div>
+                            <span className="font-bold text-lg dark:text-white">
+                                { props?.quota !== 0 ? 'Sisa quota pendaftaran hari ini '+ props?.quota : 'Quota Pendaftaran sudah penuh untuk hari ini, silahkan melakukan pendaftaran besok' }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
                 <CardLayout>
                     <div className="mb-2 flex justify-end">
                         <ButtonCreate onClick={() => onClickHandlerCreate()} />

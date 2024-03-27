@@ -28,6 +28,14 @@ class PendaftaranSamlingController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    private function _checkQuota($val)
+    {
+        $max_quota = 30;
+        $remaining_quota = $max_quota - $val;
+        return $remaining_quota;
+    }
+
     public function index(Request $request)
     {
         $query = $request->input('search');
@@ -55,11 +63,14 @@ class PendaftaranSamlingController extends Controller
             ->Join('pendaftaran_samsat_detail', 'pendaftaran_samsat_detail.id_stnk', '=', 'stnk.id')
             ->get();
 
+        $get_pendaftar = DB::table('pendaftaran_samsat')->where('tgl_pendaftaran', date("Y-m-d"))->count();
+        $quota = $this->_checkQuota($get_pendaftar);
 
         return Inertia::render('pendaftaranSamling/pendaftaranSamlingList', [
             'dataPendaftaran' => $dataPendaftaran,
             'query' => $query,
-            'dataStnk' => $dataStnk
+            'dataStnk' => $dataStnk,
+            'quota' => $quota
         ]);
     }
 
