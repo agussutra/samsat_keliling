@@ -23,9 +23,9 @@ use Inertia\Inertia;
 */
 
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/testing', function () {
+    return Inertia::render('Test');
+});
 
 Route::middleware('auth')->group(function () {
     // Route::get('/pendaftaran_offline', [PendaftaranOfflineController::class, 'index']);
@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/pendaftaran_samling', [PendaftaranSamlingController::class, 'store']);
     Route::put('/pendaftaran_samling/{id}', [PendaftaranSamlingController::class, 'update']);
     Route::delete('/pendaftaran_samling/{id}', [PendaftaranSamlingController::class, 'delete']);
+    // Route::delete('/pendaftaran_samling/{id}', [PendaftaranSamlingController::class, 'print']);
 
     Route::delete('/user/deleteChild/{id}', [RegisteredUserController::class, 'deleteChild']);
 
