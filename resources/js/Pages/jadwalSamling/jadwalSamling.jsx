@@ -264,7 +264,7 @@ const jadwalSamling = (props) => {
                                                 <td className="text-center border dark:text-white">{data.tgl_samling}</td>
                                                 <td className="text-center border dark:text-white">{data.jam_samling}</td>
                                                 <td className="text-center border dark:text-white">{data.lokasi_samling}</td>
-                                                <td className="text-center border dark:text-white">{data.count}/30</td>
+                                                <td className="text-center border dark:text-white">{data.remaining_quota}/30</td>
                                             </tr>
                                         </>
                                     );
