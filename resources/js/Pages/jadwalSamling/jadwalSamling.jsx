@@ -261,6 +261,7 @@ const jadwalSamling = (props) => {
                                 <tr>
                                     <th className="text-center border dark:text-white text-black text-base">Tanggal Samling</th>
                                     <th className="text-center border dark:text-white text-black text-base">Jam Samling</th>
+                                    <th className="text-center border dark:text-white text-black text-base">Jam Selesai</th>
                                     <th className="text-center border dark:text-white text-black text-base">Lokasi Samling</th>
                                     <th className="text-center border dark:text-white text-black text-base">Quota</th>
                                 </tr>
