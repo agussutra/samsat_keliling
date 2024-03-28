@@ -154,11 +154,7 @@ const pendaftaranSamlingList = (props) => {
                                                         onClickHandlerDelete(props?.dataPendaftaran?.data[i]);
                                                     }} />
                                             }
-<<<<<<< HEAD
-                                                <ButtonInfo
-=======
                                             <ButtonInfo
->>>>>>> main
                                                 onClick={() => {
                                                     onClickHandlerInfo(props?.dataPendaftaran?.data[i]);
                                                 }}
