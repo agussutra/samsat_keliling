@@ -32,6 +32,7 @@
         "react-router-dom": "^5.2.0",
         "react-select": "^5.8.0",
         "react-select2": "^4.0.3",
+        "react-to-print": "^2.15.1",
         "tailwindcss-font-inter": "^3.0.1"
     }
 }

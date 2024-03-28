@@ -20,6 +20,7 @@ class JadwalSamlingController extends Controller
         $this->setValidationRule([
             'tgl_samling' => ['required'],
             'jam_samling' => ['required'],
+            'jam_samling_selesai' => ['required'],
             'info_samling' => ['required', 'max:100'],
             'lokasi_samling' => ['required', 'max:50'],
         ]);
@@ -27,6 +28,7 @@ class JadwalSamlingController extends Controller
         $this->setValidationRuleMassage([
             'tgl_samling.required' => 'Tanggal Samling Harus Diisi',
             'jam_samling.required' => 'Jam Samling Harus Diisi',
+            'jam_samling_selesai.required' => 'Jam Samling Harus Diisi',
             'info_samling.required' => 'Info Samling Harus Diisi',
             'lokasi_samling.required' => 'Lokasi Samling Harus Diisi',
             'info_samling.max' => 'Tidak Bisa Lebih Dari 100 karakter',

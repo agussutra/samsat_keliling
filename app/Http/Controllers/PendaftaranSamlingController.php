@@ -39,7 +39,7 @@ class PendaftaranSamlingController extends Controller
         $userId = $user->id;
 
         $dataPendaftaran = DB::table('pendaftaran_samsat')
-            ->select('pendaftaran_samsat.*', 'users.name', 'users.id as id_user', 'jadwal_pajak.tgl_samling')
+            ->select('pendaftaran_samsat.*', 'users.name', 'users.id as id_user', 'jadwal_pajak.tgl_samling', 'jadwal_pajak.jam_samling', 'jadwal_pajak.jam_samling_selesai' )
             ->leftJoin('pendaftaran_samsat_detail', 'pendaftaran_samsat_detail.id_pendaftaran', '=', 'pendaftaran_samsat.id')
             ->leftJoin('users', 'users.id', '=', 'pendaftaran_samsat_detail.id_user')
             ->leftJoin('jadwal_pajak', 'jadwal_pajak.id', '=', 'pendaftaran_samsat.jadwal_id')
@@ -59,7 +59,7 @@ class PendaftaranSamlingController extends Controller
         return Inertia::render('pendaftaranSamling/pendaftaranSamlingList', [
             'dataPendaftaran' => $dataPendaftaran,
             'query' => $query,
-            'dataStnk' => $dataStnk
+            'dataStnk' => $dataStnk,
         ]);
     }
 

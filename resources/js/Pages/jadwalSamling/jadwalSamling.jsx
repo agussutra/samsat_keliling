@@ -38,6 +38,7 @@ const jadwalSamling = (props) => {
         jam_samling: "",
         info_samling: "",
         lokasi_samling: "",
+        jam_samling_selesai: ""
     });
 
     const [modal, setModal] = useState({
@@ -176,7 +177,11 @@ const jadwalSamling = (props) => {
                                     styleHeader: "text-left",
                                 },
                                 {
-                                    text: "Jam Samling",
+                                    text: "Jam Samling Mulai",
+                                    styleHeader: "text-left",
+                                },
+                                {
+                                    text: "Jam Samling Selesai",
                                     styleHeader: "text-left",
                                 },
                                 {
@@ -198,6 +203,10 @@ const jadwalSamling = (props) => {
                                 },
                                 {
                                     field: "jam_samling",
+                                    styleBody: "text-left",
+                                },
+                                {
+                                    field: "jam_samling_selesai",
                                     styleBody: "text-left",
                                 },
                                 {
@@ -254,6 +263,7 @@ const jadwalSamling = (props) => {
                                             <tr>
                                                 <td className="text-center border dark:text-white">{data.tgl_samling}</td>
                                                 <td className="text-center border dark:text-white">{data.jam_samling}</td>
+                                                <td className="text-center border dark:text-white">{data.jam_samling_selesai}</td>
                                                 <td className="text-center border dark:text-white">{data.lokasi_samling}</td>
                                             </tr>
                                         </>
