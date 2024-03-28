@@ -15,6 +15,7 @@ const JadwalSamlingContent = ({ action, initialData, dataForm, setData, formErro
                 jam_samling: '',
                 info_samling: '',
                 lokasi_samling: '',
+                jam_samling_selesai: '',
             }));
         } else if (action === "UPDATE") {
             setData((prevData) => ({
@@ -23,6 +24,7 @@ const JadwalSamlingContent = ({ action, initialData, dataForm, setData, formErro
                 jam_samling: initialData?.jam_samling || '',
                 info_samling: initialData?.info_samling || '',
                 lokasi_samling: initialData?.lokasi_samling || '',
+                jam_samling_selesai: initialData?.jam_samling_selesai || '',
             }));
         }
     }, [action]);
@@ -37,6 +39,7 @@ const JadwalSamlingContent = ({ action, initialData, dataForm, setData, formErro
             <>
                 <ItemVertical label="Tgl. Samling" value={initialData.tgl_samling} />
                 <ItemVertical label="Jam Samling" value={initialData.jam_samling} />
+                <ItemVertical label="Jam Samling Selesai" value={initialData.jam_samling_selesai} />
                 <ItemVertical label="Info Samling" value={initialData.info_samling} />
                 <ItemVertical label="Lokasi Samling" value={initialData.lokasi_samling} />
             </>
@@ -59,6 +62,14 @@ const JadwalSamlingContent = ({ action, initialData, dataForm, setData, formErro
                 type="time"
                 onChange={(value) => handleInputChange('jam_samling', value)}
                 errors={formError.jam_samling}
+            />
+
+            <InputForm
+                label="Jam. Samling Selesai"
+                value={dataForm?.jam_samling_selesai}
+                type="time"
+                onChange={(value) => handleInputChange('jam_samling_selesai', value)}
+                errors={formError.jam_samling_selesai}
             />
 
             <TextArea
