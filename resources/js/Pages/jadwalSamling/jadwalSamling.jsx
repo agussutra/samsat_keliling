@@ -261,6 +261,7 @@ const jadwalSamling = (props) => {
                                 <tr>
                                     <th className="text-center border dark:text-white text-black text-base">Tanggal Samling</th>
                                     <th className="text-center border dark:text-white text-black text-base">Jam Samling</th>
+                                    <th className="text-center border dark:text-white text-black text-base">Jam Selesai</th>
                                     <th className="text-center border dark:text-white text-black text-base">Lokasi Samling</th>
                                     <th className="text-center border dark:text-white text-black text-base">Quota</th>
                                 </tr>
@@ -274,7 +275,7 @@ const jadwalSamling = (props) => {
                                                 <td className="text-center border dark:text-white">{data.jam_samling}</td>
                                                 <td className="text-center border dark:text-white">{data.jam_samling_selesai}</td>
                                                 <td className="text-center border dark:text-white">{data.lokasi_samling}</td>
-                                                <td className="text-center border dark:text-white">{data.count}/30</td>
+                                                <td className="text-center border dark:text-white">{data.remaining_quota}/30</td>
                                             </tr>
                                         </>
                                     );

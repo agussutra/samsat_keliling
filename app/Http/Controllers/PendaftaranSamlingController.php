@@ -40,7 +40,7 @@ class PendaftaranSamlingController extends Controller
         $userId = $user->id;
 
         $dataPendaftaran = DB::table('pendaftaran_samsat')
-            ->select('pendaftaran_samsat.*', 'users.name', 'users.id as id_user', 'jadwal_pajak.tgl_samling', 'jadwal_pajak.jam_samling', 'jadwal_pajak.jam_samling_selesai' )
+            ->select('pendaftaran_samsat.*', 'users.name', 'users.id as id_user', 'jadwal_pajak.tgl_samling', 'jadwal_pajak.jam_samling', 'jadwal_pajak.jam_samling_selesai')
             ->leftJoin('pendaftaran_samsat_detail', 'pendaftaran_samsat_detail.id_pendaftaran', '=', 'pendaftaran_samsat.id')
             ->leftJoin('users', 'users.id', '=', 'pendaftaran_samsat_detail.id_user')
             ->leftJoin('jadwal_pajak', 'jadwal_pajak.id', '=', 'pendaftaran_samsat.jadwal_id')
@@ -63,11 +63,17 @@ class PendaftaranSamlingController extends Controller
         ]);
     }
 
-    public function form()
+    public function form(Request $request)
     {
+        $userID = $request->user()->id;
         $lastCode = Pendaftaran_Samling::latest()->value('kode_pendaftaran');
         $kodePendaftaran = 'AN' . str_pad(intval(substr($lastCode, 2)) + 1, 3, '0', STR_PAD_LEFT);
-        $dataJadwal = Jadwal_Samling::orderBy('tgl_samling')->orderBy('jam_samling')->get();
+        $getJadwalUser = Pendaftaran_Samling::whereHas('detail', function ($val) use ($userID) {
+            $val->where('id_user', $userID);
+        })->get()->pluck('jadwal_id')->unique()->toArray();
+
+        $dataJadwal = Jadwal_Samling::whereNotIn('id', $getJadwalUser)->orderBy('tgl_samling')->orderBy('jam_samling')->get();
+
         $dataUser = User::all();
         $dataStnk = Regis_Stnk::all();
         return Inertia::render('pendaftaranSamling/pendaftaranSamlingForm', [
