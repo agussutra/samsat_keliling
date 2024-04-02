@@ -50,7 +50,7 @@ class JadwalSamlingController extends Controller
             ->where('lokasi_samling', 'like', "%$query%")
             ->orderBy('tgl_samling')
             ->orderBy('jam_samling')
-            ->groupBy('jp.id')
+            ->groupBy('jp.id','jp.tgl_samling','jp.jam_samling','jp.info_samling','jp.lokasi_samling','jp.created_at','jp.updated_at','jp.jam_samling_selesai')
             ->paginate(10);
 
         // Jadwal_Samling::where('lokasi_samling', 'like', "%$query%")->orderBy('tgl_samling')->orderBy('jam_samling')->paginate(10);

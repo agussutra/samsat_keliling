@@ -11,7 +11,7 @@ class Jadwal_Samling extends Model
 
     protected $table = 'jadwal_pajak';
     protected $primaryKey = 'id';
-    protected $fillable = ['tgl_samling', 'jam_samling', 'info_samling', 'lokasi_samling', 'jam_samling_seleai'];
+    protected $fillable = ['tgl_samling', 'jam_samling', 'info_samling', 'lokasi_samling', 'jam_samling_selesai'];
 
     public function pendaftaran_offline()
     {
