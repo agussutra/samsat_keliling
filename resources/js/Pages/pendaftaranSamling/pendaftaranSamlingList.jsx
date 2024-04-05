@@ -105,7 +105,7 @@ const pendaftaranSamlingList = (props) => {
                         </div>
                     </div>
                 </div> */}
-                
+
                 <CardLayout>
                     <div className="mb-2 flex justify-end">
                         <ButtonCreate onClick={() => onClickHandlerCreate()} />
@@ -203,7 +203,7 @@ const pendaftaranSamlingList = (props) => {
                 }
             </Layout>
             {modal.show && modal.action === 'PRINT' && (
-                <PrintModal data={modal.data} onClose={() => setModal(({...modal, show: false}))}/>
+                <PrintModal data={modal.data} onClose={() => setModal(({ ...modal, show: false }))} />
             )}
         </>
     )
@@ -213,7 +213,7 @@ const pendaftaranSamlingList = (props) => {
 const PrintModal = ({ data, onClose }) => {
 
     const ref = useRef()
-    const[isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handlePrint = useReactToPrint({
         content: () => ref.current,
@@ -229,54 +229,59 @@ const PrintModal = ({ data, onClose }) => {
                 processing={isLoading}
                 title='ANTRIAN'
             >
-               <PrintLayout data={data}/>
+                <PrintLayout data={data} />
             </ModalPrint>
 
             <div style={{ display: "none" }}>
-                <PrintLayout ref={ref} data={data}/>
+                <PrintLayout ref={ref} data={data} />
             </div>
 
         </div>
     )
 }
 
-const PrintLayout = React.forwardRef(({data}, ref) => {
+const PrintLayout = React.forwardRef(({ data }, ref) => {
 
     return (
-            <div ref={ref} className='flex justify-center items-center m-5'>
-                <div className='w-[500px] h-[400px] bg-blue-300 p-4 rounded-xl shadow-lg'>
-                    <div className='text-center flex flex-col rounded-b-xl p-4 bg-stone-50'>
+        <div ref={ref} className='flex justify-center items-center m-5'>
+            <div className='w-[500px] h-[400px] bg-blue-300 p-4 rounded-xl shadow-lg'>
+                <div className='p-4 bg-stone-50 flex gap-9'>
+                    <div className=" w-[50px] h-[50px]">
+                        <img src="image/logo.png" alt="" />
+                    </div>
+                    <div className='text-center flex flex-col rounded-b-xl'>
                         <span className='text-2xl  font-bold font-raleway'>KARTU ANTRIAN</span>
                         <span className='text-3xl font-bold mt-2 font-mono mb-2'>{data?.kode_pendaftaran}</span>
-                        <span  className='text-md font-bold mt-2 font-mono mb-1'>Estimasi Pemanggilan Antrian</span>
-                        <span  className='text-sm font-bold mt-2 font-mono mb-2'>{calculateEstimasi(parseInt(data?.kode_pendaftaran.match(/\d+/)[0]), data?.jam_samling, 30)}</span>
+                        <span className='text-md font-bold mt-2 font-mono mb-1'>Estimasi Pemanggilan Antrian</span>
+                        <span className='text-sm font-bold mt-2 font-mono mb-2'>{calculateEstimasi(parseInt(data?.kode_pendaftaran.match(/\d+/)[0]), data?.jam_samling, 30)}</span>
                     </div>
+                </div>
 
-                    <div className='mt-5'>
-                        <div className='flex items-center gap-6'>
-                            <div className='ml-5'>
-                                <FaUserCog className='text-white text-[100px]' />
-                            </div>
-                            <div>
-                                <div className='grid grid-cols-2 gap-2'>
-                                    <div>
-                                        <span className='text-xl font-bold text-white'>Nama</span>
-                                    </div>
-                                    <div>
-                                        <span className='text-white text-xl'>: {data?.name}</span>
-                                    </div>
-                                    <div>
-                                        <span className='text-xl font-bold text-white'>Tgl. Registrasi</span>
-                                    </div>
-                                    <div>
-                                        <span className='text-white text-xl'>: {data?.tgl_pendaftaran}</span>
-                                    </div>
+                <div className='mt-5'>
+                    <div className='flex items-center gap-6'>
+                        <div className='ml-5'>
+                            <FaUserCog className='text-white text-[100px]' />
+                        </div>
+                        <div>
+                            <div className='grid grid-cols-2 gap-2'>
+                                <div>
+                                    <span className='text-xl font-bold text-white'>Nama</span>
+                                </div>
+                                <div>
+                                    <span className='text-white text-xl'>: {data?.name}</span>
+                                </div>
+                                <div>
+                                    <span className='text-xl font-bold text-white'>Tgl. Registrasi</span>
+                                </div>
+                                <div>
+                                    <span className='text-white text-xl'>: {data?.tgl_pendaftaran}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     )
 })
 
