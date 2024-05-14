@@ -2,6 +2,7 @@ import { React, useEffect } from "react";
 import {
     InputForm,
     ItemVertical,
+    Dropdown
 } from "@/Components";
 import {dateFormat} from "../../../Function"
 
@@ -33,6 +34,11 @@ const RegisStnkContent = ({ action, initialData, dataForm, setData, formError })
         setData(name, value)
     };
 
+    const dropdownTipeKendaraan = [
+        {value: 'roda dua', label: 'roda dua'},
+        {value: 'roda empat', label: 'roda empat'}
+    ]
+
     if (action === "READ" || action === "DELETE") {
         return (
             <>
@@ -53,10 +59,9 @@ const RegisStnkContent = ({ action, initialData, dataForm, setData, formError })
                 onChange={(value) => handleInputChange('plat_kendaraan', value)}
                 errors={formError.plat_kendaraan}
             />
-            <InputForm
+            <Dropdown
                 label="Tipe Kendaraan"
-                value={dataForm?.tipe_kendaraan}
-                type="text"
+                data={dropdownTipeKendaraan}
                 onChange={(value) => handleInputChange('tipe_kendaraan', value)}
                 errors={formError.tipe_kendaraan}
             />

@@ -26,7 +26,7 @@ class RegisStnkController extends Controller
         }
         $this->setModel(Regis_Stnk::class);
         $this->setValidationRule([
-            'plat_kendaraan' => 'required|max:10',
+            'plat_kendaraan' => 'required|max:10|unique:stnk,plat_kendaraan',
             'tipe_kendaraan' => 'required',
             'no_stnk' => $role_stnk,
             'masa_berlaku' => 'required',
@@ -42,6 +42,7 @@ class RegisStnkController extends Controller
             'no_stnk.required' => 'Field no stnk harus diisi.',
             'masa_berlaku.required' => 'Field no masa berlaku harus diisi.',
             'no_stnk.unique' => 'Nomor STNK sudah terdaftar',
+            'plat_kendaraan.unique' => 'Plat Kendaraan sudah terdaftar',
         ]);
     }
 

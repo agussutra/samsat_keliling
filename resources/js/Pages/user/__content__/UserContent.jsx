@@ -172,25 +172,25 @@ const UserContent = ({ action, initialData, dataForm, setData, formError, dataDe
                     </div>
                 </form>
                 <div className="mb-5">
-                    <p className="font-bold">DETAIL KENDARAAN</p>
+                    <p className="font-bold dark:text-white">DETAIL KENDARAAN</p>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="table table-md table-pin-rows table-pin-cols">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Plat Kendaraan</th>
-                                <th>Tipe Kendaraan</th>
-                                <th>No STNK</th>
-                                <th>Masa Berlaku</th>
-                                <th>Action</th>
+                        <thead >
+                            <tr >
+                                <th className="dark:bg-slate-500 text-white">No</th>
+                                <th className="dark:bg-slate-500 text-white">Plat Kendaraan</th>
+                                <th className="dark:bg-slate-500 text-white">Tipe Kendaraan</th>
+                                <th className="dark:bg-slate-500 text-white">No STNK</th>
+                                <th className="dark:bg-slate-500 text-white">Masa Berlaku</th>
+                                <th className="dark:bg-slate-500 text-white">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {data?.dataValue?.map((field, i) => (
                                 <tr key={i}>
-                                    <td>{i + 1}</td>
-                                    <td>
+                                    <td className="dark:text-white">{i + 1}</td>
+                                    <td className="dark:text-white">
                                         {isUpdate[i] === undefined || !isUpdate ? (
                                             field.plat_kendaraan
                                         ) : (
@@ -202,7 +202,7 @@ const UserContent = ({ action, initialData, dataForm, setData, formError, dataDe
                                             />
                                         )}
                                     </td>
-                                    <td>
+                                    <td className="dark:text-white">
                                         {isUpdate[i] === undefined || !isUpdate ? (
                                             field.tipe_kendaraan
                                         ) : (
@@ -214,7 +214,7 @@ const UserContent = ({ action, initialData, dataForm, setData, formError, dataDe
                                             />
                                         )}
                                     </td>
-                                    <td>
+                                    <td className="dark:text-white">
                                         {isUpdate[i] === undefined || !isUpdate ? (
                                             field.no_stnk
                                         ) : (
@@ -226,7 +226,7 @@ const UserContent = ({ action, initialData, dataForm, setData, formError, dataDe
                                             />
                                         )}
                                     </td>
-                                    <td>
+                                    <td className="dark:text-white">
                                         {isUpdate[i] === undefined || !isUpdate ? (
                                             field.masa_berlaku
                                         ) : (
@@ -238,7 +238,7 @@ const UserContent = ({ action, initialData, dataForm, setData, formError, dataDe
                                             />
                                         )}
                                     </td>
-                                    <td>
+                                    <td >
                                         {isUpdate[i] === undefined || !isUpdate[i] ? (
                                             <div className="flex item-center gap-1">
                                                 <button type="button" className="btn btn-primary btn-outline btn-sm" onClick={() => handleUpdateClick(i)} >
