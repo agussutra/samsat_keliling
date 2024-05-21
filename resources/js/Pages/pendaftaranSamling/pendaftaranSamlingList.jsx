@@ -18,7 +18,8 @@ import {
     ButtonGroup,
     ButtonInfo,
     ModalDetail,
-    ModalPrint
+    ModalPrint,
+    ModalUpdate
 } from "@/Components"
 import PendaftaranSamlingContent from './__content__/PendaftaranSamlingContent';
 import { useRef } from "react";
@@ -54,6 +55,7 @@ const pendaftaranSamlingList = (props) => {
         const statusAntrian = e + 1;
         if (statusAntrian <= 3) {
             router.put(`/pendaftaran_samling/${id}`, { statusAntrian });
+            setModal({...modal, show: false})
         }
         // router.reload({ only: ['/'] });
     };
@@ -92,20 +94,6 @@ const pendaftaranSamlingList = (props) => {
                 />
                 <Head title="PENDAFTARAN SAMLING" />
                 <HeaderMenu namePages="PENDAFTARAN SAMLING" />
-
-                {/* <div className={"w-full " + (props?.quota !== 0 ? 'bg-blue-400 p-4 rounded-md mb-3' : 'bg-red-400 p-4 rounded-md mb-3')}>
-                    <div className="flex items-center">
-                        <div className="mr-3">
-                            <FaClipboardList className="dark:text-white" />
-                        </div>
-                        <div>
-                            <span className="font-bold text-lg dark:text-white">
-                                { props?.quota !== 0 ? 'Sisa quota pendaftaran hari ini '+ props?.quota : 'Quota Pendaftaran sudah penuh untuk hari ini, silahkan melakukan pendaftaran besok' }
-                            </span>
-                        </div>
-                    </div>
-                </div> */}
-
                 <CardLayout>
                     <div className="mb-2 flex justify-end">
                         <ButtonCreate onClick={() => onClickHandlerCreate()} />
@@ -140,7 +128,7 @@ const pendaftaranSamlingList = (props) => {
                                     <Td>{formatDate(row.tgl_samling)}</Td>
                                     <Td>{row.name}</Td>
                                     <Td>
-                                        <button disabled={role === 2 ? true : false} onClick={() => handleClickStatus(row.status_antrian, row.id)} className={`${row.status_antrian === 1 ? 'btn btn-error' : (row.status_antrian === 2 ? 'btn btn-warning' : 'btn btn-success')} btn-sm rounded-md text-white`} >
+                                        <button disabled={role === 2 ? true : (row.status_antrian === 3 ? true : false)} onClick={() => setModal({ ...modal, show: true, data: row, action: 'CONFIRM' })} className={`${row.status_antrian === 1 ? 'btn btn-error' : (row.status_antrian === 2 ? 'btn btn-warning' : 'btn btn-success')} btn-sm rounded-md text-white`} >
                                             {`${row.status_antrian === 1 ? 'Belum Diproses' : (row.status_antrian === 2 ? 'Sedang Diproses' : 'Selesai')}`}
                                         </button>
                                     </Td>
@@ -167,6 +155,7 @@ const pendaftaranSamlingList = (props) => {
                     </TableCustom>
                 </CardLayout>
 
+
                 {/* Modal Delete Data */}
                 {(modal.show && modal.action === "DELETE") &&
                     <form onSubmit={submit}>
@@ -184,6 +173,8 @@ const pendaftaranSamlingList = (props) => {
                     </form>
                 }
 
+
+
                 {/* Modal Info Data */}
                 {(modal.show && modal.action === "DETAIL") &&
                     <form onSubmit={submit}>
@@ -200,6 +191,22 @@ const pendaftaranSamlingList = (props) => {
                             />
                         </ModalDetail>
                     </form>
+                }
+            
+
+                {/* Modal Confirm */}
+                {modal.show && modal.action === 'CONFIRM' &&
+                        <ModalUpdate
+                            title="STATUS"
+                            onClose={() => setModal({ ...modal, show: false })}
+                            processing={processing}
+                            type="button"
+                            onClick={() => handleClickStatus(modal.data.status_antrian, modal.data.id)}
+                        >
+                        <div className='font-bold text-md dark:text-white'>
+                            Apakah Anda Yakin Ingin Merubah Status Wajib Pajak {modal.data.name} ?
+                        </div>
+                        </ModalUpdate>
                 }
             </Layout>
             {modal.show && modal.action === 'PRINT' && (
