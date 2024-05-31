@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisMail;
+use Exception;
+use PhpParser\Node\Stmt\TryCatch;
 
 class RegisteredUserController extends Controller
 {
@@ -59,17 +63,23 @@ class RegisteredUserController extends Controller
             'no_tlp' => 'required|numeric',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'username' => $request->username,
-            'role' => $request->role,
-            'alamat' => $request->alamat,
-            'no_tlp' => $request->no_tlp,
-        ]);
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'username' => $request->username,
+                'role' => $request->role,
+                'alamat' => $request->alamat,
+                'no_tlp' => $request->no_tlp,
+            ]);
+            Mail::to($request->email)->send(new RegisMail($user, 'Behasil Registrasi'));
+            return redirect()->back();
+        } catch (Exception $e) {
+            Mail::to($request->email)->send(new RegisMail($user, 'Gagal Registrasi'));
+        }
 
-        return redirect()->back();
+        
     }
 
     public function update(Request $request, $id)
