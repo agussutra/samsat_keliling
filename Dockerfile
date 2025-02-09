@@ -36,7 +36,4 @@ RUN npm install
 # 8. (Opsional) Build aplikasi frontend menggunakan Vite
 RUN npm run build
 
-# 9. Jalankan migrasi database Laravel (opsional jika Anda ingin melakukannya di build)
-RUN php artisan migrate --force
-
 # 10. Set e
