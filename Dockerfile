@@ -1,6 +1,9 @@
 # 1. Gunakan base image PHP (versi 8.1 atau sesuai kebutuhan)
 FROM php:8.1-fpm
 
+RUN apt-get update && apt-get install -y libpq-dev && \
+    docker-php-ext-install pdo_pgsql pgsql
+
 # 2. Install dependensi sistem yang diperlukan
 RUN apt-get update && apt-get install -y \
     curl \
@@ -13,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y nodejs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd
+    
 
 # 3. Install Composer (dependency manager untuk PHP)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
